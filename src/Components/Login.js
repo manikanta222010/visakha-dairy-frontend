@@ -23,13 +23,13 @@ export function Login() {
     event.preventDefault();
 
     try {
-      const response = await axios.post('https://visakha-dairy-backend.onrender.com/login', {
+      const response = await axios.post('http://localhost:9000/', {
         user_name,
         password
       });
       localStorage.setItem('token', response.data.token);
       setErrorMessage('');
-      window.location.href = '/';
+      window.location.href = '/home';
     } catch (err) {
       setErrorMessage(err.response.data.message);
     }

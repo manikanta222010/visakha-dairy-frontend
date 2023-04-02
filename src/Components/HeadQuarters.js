@@ -8,7 +8,7 @@ export function HeadQuarters() {
 
 
     useEffect(() => {
-        axios.get('https://visakha-dairy-backend.onrender.com/headquarters', {
+        axios.get('http://localhost:9000/headquarters', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -17,7 +17,7 @@ export function HeadQuarters() {
                 setHeadquarters(response.data);
             })
             .catch(error => {
-                window.location.href = '/login';
+                window.location.href = '/';
                 console.log(error);
             });
     }, []);

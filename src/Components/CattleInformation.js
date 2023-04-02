@@ -10,7 +10,7 @@ export function CattleInformation() {
     const [cattles, setCattles] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/cattle-information`)
+        axios.get(`http://localhost:9000/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/cattle-information`)
             .then(response => {
                 setCattles(response.data);
             })
