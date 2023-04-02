@@ -23,7 +23,7 @@ export function Login() {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:9000/', {
+      const response = await axios.post('https://visakha-dairy-backend.onrender.com/', {
         user_name,
         password
       });
