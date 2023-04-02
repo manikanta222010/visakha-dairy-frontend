@@ -29,7 +29,7 @@ export function Producers() {
     return (
         <section className="table-container">
 
-            
+
 
             <h1>PRODUCERS</h1>
             <table class="content-table">

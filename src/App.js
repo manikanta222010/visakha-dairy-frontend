@@ -20,11 +20,11 @@ function App() {
     <>
 
       <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
         <Route exact path="/login">
           <Login />
+        </Route>
+        <Route exact path="/">
+          <Home />
         </Route>
         <Route exact path="/individual-report">
           <IndividualReport />
