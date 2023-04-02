@@ -8,7 +8,7 @@ export function MilkReceiptsFnConsolidated() {
     const [milkReceiptsFnConsolidated, setMilkReceiptsFnConsolidated] = useState([]);
 
     useEffect(() => {
-        axios.get('https://visakha-dairy-backend.onrender.com/milk-receipts-fn-consolidated')
+        axios.get('http://localhost:9000/milk-receipts-fn-consolidated')
             .then(response => {
                 setMilkReceiptsFnConsolidated(response.data);
             })

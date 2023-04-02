@@ -8,7 +8,7 @@ export function RecoveriesEntryFn() {
     const [producers, setProducers] = useState([]);
 
     useEffect(() => {
-        axios.get('https://visakha-dairy-backend.onrender.com/recoveries-entry-fn')
+        axios.get('http://localhost:9000/recoveries-entry-fn')
             .then(response => {
                 setProducers(response.data);
             })

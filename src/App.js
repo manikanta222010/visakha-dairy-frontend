@@ -10,19 +10,27 @@ import { Bcc } from './Components/Bcc';
 import { Societies } from './Components/Societies';
 import { FnConsolidatedProducer } from './Components/FnConsolidatedProducer';
 import { HeadQuarters } from './Components/HeadQuarters';
+import { Login } from './Components/Login';
+import { IndividualReport } from './Components/IndividualReport';
 
 function App() {
 
 
   return (
     <>
-    
+
       <Switch>
-        <Route exact path="/headquarters">
-          <HeadQuarters />
-        </Route>
         <Route exact path="/">
           <Home />
+        </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/individual-report">
+          <IndividualReport />
+        </Route>
+        <Route exact path="/headquarters">
+          <HeadQuarters />
         </Route>
         <Route exact path="/headquarters/:hqCode/bcc/:bccCode/societies/:societyCode/producers">
           <Producers />
@@ -50,7 +58,7 @@ function App() {
         </Route>
       </Switch>
     </>
-    
+
   );
 }
 

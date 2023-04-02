@@ -16,7 +16,7 @@ export function FnConsolidatedProducer() {
 
     const [producer, setProducer] = useState([]);
     useEffect(() => {
-        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}`)
+        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}`)
             .then(response => {
                 setProducer(response.data);
             })
@@ -28,7 +28,7 @@ export function FnConsolidatedProducer() {
     const [cattles, setCattles] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/cattle-information`)
+        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/cattle-information`)
             .then(response => {
                 setCattles(response.data);
             })
@@ -40,7 +40,7 @@ export function FnConsolidatedProducer() {
     const [milkReceiptsFnConsolidated, setMilkReceiptsFnConsolidated] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/milk-receipts-fn-consolidated`)
+        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/milk-receipts-fn-consolidated`)
             .then(response => {
                 setMilkReceiptsFnConsolidated(response.data);
             })
@@ -49,10 +49,11 @@ export function FnConsolidatedProducer() {
             });
     }, []);
 
+
     const [recoveries, setRecoveries] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/recoveries-entry-fn`)
+        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/recoveries-entry-fn`)
             .then(response => {
                 setRecoveries(response.data);
             })
@@ -64,7 +65,7 @@ export function FnConsolidatedProducer() {
     const [society, setSociety] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}`)
+        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}`)
             .then(response => {
                 setSociety(response.data);
             })
@@ -91,30 +92,11 @@ export function FnConsolidatedProducer() {
         return outputDate
     }
 
-
-    let [ltrs_AM_B, setLtrs_AM_B] = useState(null)
-    let [ltrs_PM_B, setLtrs_PM_B] = useState(null)
-    let [fat_AM_B, setFat_AM_B] = useState(null)
-    let [fat_PM_B, setFat_PM_B] = useState(null)
-    let [snf_AM_B, setSnf_AM_B] = useState(null)
-    let [snf_PM_B, setSnf_PM_B] = useState(null)
-    let [amount_AM_B, setAmountRate_AM_B] = useState(null)
-    let [amount_PM_B, setAmountRate_PM_B] = useState(null)
-
-    let [ltrs_AM_C, setLtrs_AM_C] = useState(null)
-    let [ltrs_PM_C, setLtrs_PM_C] = useState(null)
-    let [fat_AM_C, setFat_AM_C] = useState(null)
-    let [fat_PM_C, setFat_PM_C] = useState(null)
-    let [snf_AM_C, setSnf_AM_C] = useState(null)
-    let [snf_PM_C, setSnf_PM_C] = useState(null)
-    let [amount_AM_C, setAmountRate_AM_C] = useState(null)
-    let [amount_PM_C, setAmountRate_PM_C] = useState(null)
-
     const [milkMain, setMilkMain] = useState([])
 
     useEffect(() => {
         if (fromDate && toDate) {
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
 
                     //////////////////
@@ -272,7 +254,7 @@ export function FnConsolidatedProducer() {
                             <span>&nbsp; From {dateFormatConverter(milkMain.from_date.slice(0, 10))} To {dateFormatConverter(milkMain.to_date.slice(0, 10))}</span>
                             {/* <span>{"+"}</span> */}
                             {/* <span>{openStates[index] && (<span>-&nbsp;&nbsp;&nbsp;&nbsp;</span>)}</span> */}
-                            <span>{openStates[index] ? "\u25b3" : "\u25bd"} &nbsp;&nbsp;&nbsp;</span>
+                            <span>{openStates[index] ? "\u25b2" : "\u25bc"} &nbsp;&nbsp;&nbsp;</span>
                         </div>
                         {openStates[index] && (
                             <div className="collapsible-content">
@@ -388,22 +370,22 @@ export function FnConsolidatedProducer() {
                                         <div className='first-7fr' style={{ justifyItems: 'center' }}>
                                             <div><span>B</span></div>
                                             <div><span>AM</span></div>
-                                            <div><span>{milkMain.ltrs.length < 2 ? (milkMain.milk_type[0] == 'B' ? milkMain.ltrs[0][0] : null) : milkMain.ltrs[0][0]}</span></div>
-                                            <div><span>{milkMain.fat.length < 2 ? (milkMain.milk_type[0] == 'B' ? milkMain.fat[0][0] : null) : milkMain.fat[0][0]}</span></div>
-                                            <div><span>{milkMain.snf.length < 2 ? (milkMain.milk_type[0] == 'B' ? milkMain.snf[0][0] : null) : milkMain.snf[0][0]}</span></div>
-                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] == 'B' ? +(milkMain.amount[0][0] / milkMain.ltrs[0][0]).toFixed(2) : null) : +(milkMain.amount[0][0] / milkMain.ltrs[0][0]).toFixed(2)}</span></div>
-                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] == 'B' ? milkMain.amount[0][0] : null) : milkMain.amount[0][0]}</span></div>
+                                            <div><span>{milkMain.ltrs.length < 2 ? (milkMain.milk_type[0] === 'B' ? milkMain.ltrs[0][0] : null) : milkMain.ltrs[0][0]}</span></div>
+                                            <div><span>{milkMain.fat.length < 2 ? (milkMain.milk_type[0] === 'B' ? milkMain.fat[0][0] : null) : milkMain.fat[0][0]}</span></div>
+                                            <div><span>{milkMain.snf.length < 2 ? (milkMain.milk_type[0] === 'B' ? milkMain.snf[0][0] : null) : milkMain.snf[0][0]}</span></div>
+                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] === 'B' ? +(milkMain.amount[0][0] / milkMain.ltrs[0][0]).toFixed(2) : null) : +(milkMain.amount[0][0] / milkMain.ltrs[0][0]).toFixed(2)}</span></div>
+                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] === 'B' ? milkMain.amount[0][0] : null) : milkMain.amount[0][0]}</span></div>
                                         </div>
                                         {/* <hr /> */}
 
                                         <div className='first-7fr' style={{ justifyItems: 'center' }}>
                                             <div></div>
                                             <div><span>PM</span></div>
-                                            <div><span>{milkMain.ltrs.length < 2 ? (milkMain.milk_type[0] == 'B' ? milkMain.ltrs[0][1] : null) : milkMain.ltrs[0][1]}</span></div>
-                                            <div><span>{milkMain.fat.length < 2 ? (milkMain.milk_type[0] == 'B' ? milkMain.fat[0][1] : null) : milkMain.fat[0][1]}</span></div>
-                                            <div><span>{milkMain.snf.length < 2 ? (milkMain.milk_type[0] == 'B' ? milkMain.snf[0][1] : null) : milkMain.snf[0][1]}</span></div>
-                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] == 'B' ? +(milkMain.amount[0][1] / milkMain.ltrs[0][1]).toFixed(2) : null) : +(milkMain.amount[0][1] / milkMain.ltrs[0][1]).toFixed(2)}</span></div>
-                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] == 'B' ? milkMain.amount[0][1] : null) : milkMain.amount[0][1]}</span></div>
+                                            <div><span>{milkMain.ltrs.length < 2 ? (milkMain.milk_type[0] === 'B' ? milkMain.ltrs[0][1] : null) : milkMain.ltrs[0][1]}</span></div>
+                                            <div><span>{milkMain.fat.length < 2 ? (milkMain.milk_type[0] === 'B' ? milkMain.fat[0][1] : null) : milkMain.fat[0][1]}</span></div>
+                                            <div><span>{milkMain.snf.length < 2 ? (milkMain.milk_type[0] === 'B' ? milkMain.snf[0][1] : null) : milkMain.snf[0][1]}</span></div>
+                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] === 'B' ? +(milkMain.amount[0][1] / milkMain.ltrs[0][1]).toFixed(2) : null) : +(milkMain.amount[0][1] / milkMain.ltrs[0][1]).toFixed(2)}</span></div>
+                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] === 'B' ? milkMain.amount[0][1] : null) : milkMain.amount[0][1]}</span></div>
                                         </div>
 
                                         <hr />
@@ -424,22 +406,22 @@ export function FnConsolidatedProducer() {
                                         <div className='first-7fr' style={{ justifyItems: 'center' }}>
                                             <div>C</div>
                                             <div>AM</div>
-                                            <div><span>{milkMain.ltrs.length < 2 ? (milkMain.milk_type[0] == 'C' ? milkMain.ltrs[0] : null) : milkMain.ltrs[0][0]}</span></div>
-                                            <div><span>{milkMain.fat.length < 2 ? (milkMain.milk_type[0] == 'C' ? milkMain.fat[0] : null) : milkMain.fat[0][0]}</span></div>
-                                            <div><span>{milkMain.snf.length < 2 ? (milkMain.milk_type[0] == 'C' ? milkMain.snf[0] : null) : milkMain.snf[0][0]}</span></div>
-                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] == 'C' ? +(milkMain.amount[0] / milkMain.ltrs[0]).toFixed(2) : null) : +(milkMain.amount[0][0] / milkMain.ltrs[0][0]).toFixed(2)}</span></div>
-                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] == 'C' ? milkMain.amount[0] : null) : milkMain.amount[0][0]}</span></div>
+                                            <div><span>{milkMain.ltrs.length < 2 ? (milkMain.milk_type[0] === 'C' ? milkMain.ltrs[0] : null) : milkMain.ltrs[1][0]}</span></div>
+                                            <div><span>{milkMain.fat.length < 2 ? (milkMain.milk_type[0] === 'C' ? milkMain.fat[0] : null) : milkMain.fat[1][0]}</span></div>
+                                            <div><span>{milkMain.snf.length < 2 ? (milkMain.milk_type[0] === 'C' ? milkMain.snf[0] : null) : milkMain.snf[1][0]}</span></div>
+                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] === 'C' ? +(milkMain.amount[0] / milkMain.ltrs[0]).toFixed(2) : null) : +(milkMain.amount[1][0] / milkMain.ltrs[1][0]).toFixed(2)}</span></div>
+                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[0] === 'C' ? milkMain.amount[0] : null) : milkMain.amount[1][0]}</span></div>
                                         </div>
 
 
                                         <div className='first-7fr' style={{ justifyItems: 'center' }}>
                                             <div></div>
                                             <div>PM</div>
-                                            <div><span>{milkMain.ltrs.length < 2 ? (milkMain.milk_type[1] == 'C' ? milkMain.ltrs[1] : null) : milkMain.ltrs[0][1]}</span></div>
-                                            <div><span>{milkMain.fat.length < 2 ? (milkMain.milk_type[1] == 'C' ? milkMain.fat[1] : null) : milkMain.fat[0][1]}</span></div>
-                                            <div><span>{milkMain.snf.length < 2 ? (milkMain.milk_type[1] == 'C' ? milkMain.snf[1] : null) : milkMain.snf[0][1]}</span></div>
-                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[1] == 'C' ? +(milkMain.amount[1] / milkMain.ltrs[1]).toFixed(2) : null) : +(milkMain.amount[0][1] / milkMain.ltrs[0][1]).toFixed(2)}</span></div>
-                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[1] == 'C' ? milkMain.amount[1] : null) : milkMain.amount[0][1]}</span></div>
+                                            <div><span>{milkMain.ltrs.length < 2 ? (milkMain.milk_type[1] === 'C' ? milkMain.ltrs[1] : null) : milkMain.ltrs[1][1]}</span></div>
+                                            <div><span>{milkMain.fat.length < 2 ? (milkMain.milk_type[1] === 'C' ? milkMain.fat[1] : null) : milkMain.fat[1][1]}</span></div>
+                                            <div><span>{milkMain.snf.length < 2 ? (milkMain.milk_type[1] === 'C' ? milkMain.snf[1] : null) : milkMain.snf[1][1]}</span></div>
+                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[1] === 'C' ? +(milkMain.amount[1] / milkMain.ltrs[1]).toFixed(2) : null) : +(milkMain.amount[1][1] / milkMain.ltrs[1][1]).toFixed(2)}</span></div>
+                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[1] === 'C' ? milkMain.amount[1] : null) : milkMain.amount[1][1]}</span></div>
                                         </div>
                                         <hr />
 
@@ -450,7 +432,7 @@ export function FnConsolidatedProducer() {
                                             <div></div>
                                             <div></div>
                                             <div></div>
-                                            <div><span>{milkMain.amount.length < 2 ? (milkMain.milk_type[1] == 'C' ? milkMain.amount[0] + milkMain.amount[1] : null) : milkMain.amount[1][0] + milkMain.amount[1][1]}</span></div>
+                                            <div><span><b>{milkMain.amount.length < 2 ? (milkMain.milk_type[1] === 'C' ? milkMain.amount[0] + milkMain.amount[1] : null) : milkMain.amount[1][0] + milkMain.amount[1][1]}</b></span></div>
                                         </div>
                                         <hr />
 
@@ -470,42 +452,42 @@ export function FnConsolidatedProducer() {
 
 
 
-                                        <>
-                                            <div className='first-7fr'  >
-                                                <div><span><b>Recoveries</b></span></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div style={{ textAlign: 'end' }}><span>Total</span></div>
+                                    </>
+                                    <>
+                                        <div className='first-7fr'  >
+                                            <div><span><b>Recoveries</b></span></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div style={{ textAlign: 'end' }}><span>Total</span></div>
+                                        </div>
+                                        <hr />
+
+                                        <div className='first-3fr' >
+                                            <div>{dateFormatConverter(toDate.slice(0, 10))}</div>
+
+                                            <div>
+                                                {recoveries.map(recovery => (
+                                                    <div><span>{recovery.recovery_name}</span> <hr /></div>
+                                                ))}
                                             </div>
-                                            <hr />
-
-                                            <div className='first-3fr' >
-                                                <div>{dateFormatConverter(toDate.slice(0, 10))}</div>
-
-                                                <div>
-                                                    {recoveries.map(recovery => (
-                                                        <div><span>{recovery.recovery_name}</span> <hr /></div>
-                                                    ))}
-                                                </div>
-                                                <div>
-                                                    {recoveries.map(recovery => (
-                                                        <div style={{ textAlign: 'end' }}><span><b>{recovery.amount}</b></span> <hr /></div>
-                                                    ))}
-                                                </div>
-
-                                            </div>
-
-                                            <div className='first-3fr'>
-                                                <div><span><b>Total</b></span></div>
-                                                <div></div>
-                                                <div style={{ textAlign: 'end' }}><b>{totalAmount}</b></div>
+                                            <div>
+                                                {recoveries.map(recovery => (
+                                                    <div style={{ textAlign: 'end' }}><span><b>{recovery.amount}</b></span> <hr /></div>
+                                                ))}
                                             </div>
 
+                                        </div>
 
-                                        </>
+                                        <div className='first-3fr'>
+                                            <div><span><b>Total</b></span></div>
+                                            <div></div>
+                                            <div style={{ textAlign: 'end' }}><b>{totalAmount}</b></div>
+                                        </div>
+
+
                                     </>
 
                                 </div>

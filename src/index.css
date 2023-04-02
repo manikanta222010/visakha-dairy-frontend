@@ -1,110 +1,222 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #ffffff;
-}
-
 .container {
-  margin: 0;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  margin: auto;
+  margin-top: 2rem;
+  width: 80%;
+}
+.dates_container{
+  display: flex;
+  justify-content: space-evenly;
+}
+.dates {
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 3px 5px;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+  width: 190px;
+}
+.sections-container{
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  gap: 16px;
+  padding-top: 2rem;
+  /* width: 75rem; */
 }
 
-button {
+.sections-container > * {
+  border-radius: 1rem;
+  width: 20%;
+}
+
+h2{
+  text-align: center;
+}
+
+
+
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #eee5e5;
+}
+
+li {
+  padding: 15px;
+  border-top: 1px solid #ccc;
+  scroll-snap-align: start;
+}
+
+li:first-child {
+  border: 0;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #28afb0;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #19647e;
+}
+
+.buttons-container{
+  padding-top: 1rem;
+}
+.report-button {
+  width: 100%;
   cursor: pointer;
   font-weight: 700;
-  font-family: Helvetica, "sans-serif";
+  font-size: 1rem;
   transition: all .2s;
-  padding: 20px 40px;
-  border-radius: 100px;
-  background: #bad602;
+  padding: 15px 20px;
+  border-radius: 1rem;
+  background: #007DC5;
   border: 1px solid transparent;
-  display: flex;
-  align-items: center;
-  font-size: 28px;
 }
 
-button:hover {
-  background: #cfef02;
+.report-button:hover {
+  background: #015f96;
+  color: white;
 }
 
-button>svg {
-  width: 34px;
-  margin-left: 10px;
-  transition: transform .3s ease-in-out;
+
+
+:root {
+  --container-height: 450px;
 }
 
-button:hover svg {
-  transform: translateX(5px);
+.lister {
+  max-height: var(--container-height);
+  border: 2px solid #37392e;
+  border-radius: 5px;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior-y: contain;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-timeline: listTimeline vertical;
+  font-size: 16px;
+  height: 500px;
+  transition: text-shadow 0.3s ease-in-out;
+
+
 }
 
-button:active {
+.lister > * :hover{
+  cursor: pointer;
+  text-shadow: 0 0 5px black;
+  
+}
+
+
+
+select {
+  font-size: 16px;
+  padding: 5px 10px;
+}
+
+option {
+  background-color: #f4f4f4;
+}
+.basic-info{
+  width: 100%;
+  border: 1px solid black;
+  padding: 1.5rem 2rem;
+  border-radius: 1rem;
+}
+
+
+
+.report-button-type {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+  line-height: 1;
+  padding: 1em 1.5em;
+  position: relative;
+  transition: filter var(--motion-duration);
+  --motion-ease: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  --motion-duration: 0.3s;
+}
+
+.report-button-type:hover {
+  filter: brightness(1.1);
+}
+
+.report-button-type:active {
+  filter: brightness(0.9);
+}
+
+.report-button-type > span {
+  display: block;
+  position: relative;
+  transition: transform var(--motion-duration) var(--motion-ease);
+  z-index: 1;
+}
+
+.report-button-type:hover > span {
+  transform: scale(1.05);
+}
+
+.report-button-type:active > span {
   transform: scale(0.95);
 }
 
+.report-button-type > svg {
+  fill: #950cde;
+  position: absolute;
+  top: -5%;
+  left: -5%;
+  width: 110%;
+  height: 110%;
+}
 
-.content-table {
-  border-collapse: collapse;
-  font-size: 0.9em;
-  min-width: 400px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+.report-button-typeon > svg > path {
+  transition: var(--motion-duration) var(--motion-ease);
+}
 
+.report-button-type:hover > svg > path {
+  d: path("M0,0 C0,-5 100,-5 100,0 C105,0 105,100 100,100 C100,105 0,105 0,100 C-5,100 -5,0 0,0");
+}
+
+.report-button-type:active > svg > path {
+  d: path("M0,0 C30,10 70,10 100,0 C95,30 95,70 100,100 C70,90 30,90 0,100 C5,70 5,30 0,0");
+}
+
+
+
+
+#myDivx, .myDivx{
+  border: 1px solid black;
   margin: auto;
-  /* Centers the table horizontally */
-  width: 85%;
-  /* Sets the width of the table */
-  overflow-x: auto;
-  /* Adds a horizontal scrollbar */
-
+  margin-top: 2rem;
+}
+#myDivDay{
+  border: 1px solid black;
+  margin: auto;
+  margin: 2rem 0;
+  padding: 2rem;
 }
 
-.content-table thead tr {
-  background-color: #cfef02;
-  color: #000;
-  text-align: left;
-}
-
-.content-table th,
-.content-table td {
-  padding: 12px 15px;
-  border: 1px solid #dddddd;
-}
-
-.content-table tbody tr {
-  border: 1px solid #efefef;
-}
-
-.content-table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
-}
-
-td:hover {
-  cursor: pointer;
-}
-
-tbody>tr:hover {
-  /* transition: transform .1s ease-in-out;
-  transform: translate(1px);
-  transform: scale(1.01);
-  font-weight: bold; */
-}
-
-
-
-.table-container {
-  overflow-x: auto; /* Add a horizontal scrollbar */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 3rem;
-}
 
 
 
@@ -127,7 +239,7 @@ tbody>tr:hover {
 
 .first-3fr {
   align-items: center;
-  padding-bottom: 8px;
+  padding: 8px 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 
@@ -135,7 +247,7 @@ tbody>tr:hover {
 
 .first-4fr {
   align-items: center;
-  padding-bottom: 8px;
+  padding: 8px 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 
@@ -143,7 +255,7 @@ tbody>tr:hover {
 
 .first-5fr {
   align-items: center;
-  padding-bottom: 8px;
+  padding: 8px 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
@@ -152,7 +264,7 @@ tbody>tr:hover {
 
 .first-7fr {
   align-items: center;
-  padding-bottom: 8px;
+  padding: 8px 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 
@@ -170,51 +282,6 @@ tbody>tr:hover {
 
 
 
-.select-dropdown,
-.select-dropdown * {
-  margin: 0;
-  padding: 0;
-  position: relative;
-  box-sizing: border-box;
-}
-
-.select-dropdown {
-  position: relative;
-  background-color: #E6E6E6;
-  border-radius: 4px;
-}
-
-.select-dropdown select {
-  font-size: 1rem;
-  font-weight: normal;
-  letter-spacing: 1.5px;
-  max-width: 100%;
-  padding: 8px 24px 8px 10px;
-  border: none;
-  background-color: transparent;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-.select-dropdown select:active,
-.select-dropdown select:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.select-dropdown:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 8px;
-  width: 0;
-  height: 0;
-  margin-top: -2px;
-  border-top: 5px solid #aaa;
-  border-right: 5px solid transparent;
-  border-left: 5px solid transparent;
-}
 
 
 
@@ -254,3 +321,172 @@ tbody>tr:hover {
 .collapsible.active .collapsible-content {
   max-height: 1000px; 
 } */
+
+table { 
+	width: 750px; 
+	border-collapse: collapse; 
+	margin:10px auto;
+	}
+
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+	background: #eee; 
+	}
+
+th { 
+	background: #3498db; 
+	color: white; 
+	font-weight: bold; 
+	}
+
+td, th { 
+	padding: 10px; 
+	border: 1px solid #ccc; 
+	text-align: left; 
+	font-size: 16px;
+	}
+
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	table { 
+	  	width: 100%; 
+	}
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		/* Label the data */
+		content: attr(data-column);
+
+		color: #000;
+		font-weight: bold;
+	}
+
+}
+
+
+.main-grid {
+  display: grid;
+  width: 95% ;
+  margin: auto;
+}
+
+.inner-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 5px;
+  padding: 5px;
+}
+.inner-grid5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 5px;
+  padding: 5px;
+}
+
+.inner-item {
+  background-color: #e1e1e1;
+  /* color: #fff; */
+  font-size: 14px;
+  text-align: center;
+}
+
+.sub-inner-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.sub-inner-grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.sub-inner-grid1 {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.sub-inner-item {
+  background-color: #ececec;
+  /* color: #fff; */
+  padding: 5px;
+}
+
+.sub-sub-inner-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+
+.sub-sub-inner-item {
+  background-color: #fff;
+  /* color: #fff; */
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.first-level-grid{
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 2fr;
+}
+
+
+.day-inner-grid{
+  display: grid;
+  grid-template-columns: 1fr 4fr 2fr;
+  grid-gap: 5px;
+  padding: 5px;
+}
+
+.day-sub-sub-inner-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+[type="date"] {
+  background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+}
+[type="date"]::-webkit-inner-spin-button {
+  display: none;
+}
+[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+

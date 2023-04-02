@@ -1,32 +1,469 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 export function Home() {
     const history = useHistory();
 
 
+    const [milkReceiptsFnConsolidated, setMilkReceiptsFnConsolidated] = useState([]);
+
+    useEffect(() => {
+
+        axios.get(`http://localhost:9000/milk-receipts-fn-consolidated`)
+            .then(response => {
+                console.log("milkReceiptsFnConsolidated:  ", response.data)
+                setMilkReceiptsFnConsolidated(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+    }, []);
+
+    const [fromDate, setFromDate] = useState("")
+    useEffect(() => {
+        if (milkReceiptsFnConsolidated.length > 0) {
+            setFromDate(milkReceiptsFnConsolidated[0].from_date);
+        }
+    }, [milkReceiptsFnConsolidated]);
+
+    function handleSetFromDate(event) {
+        setFromDate(event.target.value);
+        console.log(fromDate)
+    }
+
+    const [toDate, setToDate] = useState("")
+    useEffect(() => {
+        if (milkReceiptsFnConsolidated.length > 0) {
+            setToDate(milkReceiptsFnConsolidated[0].to_date);
+        }
+    }, [milkReceiptsFnConsolidated]);
+
+    function handleSetToDate(event) {
+        setToDate(event.target.value);
+        console.log(toDate)
+    }
+
+    const [milkReceiptsFnConsolidatedFn, setMilkReceiptsFnConsolidatedFn] = useState([]);
+
+    useEffect(() => {
+        if (fromDate && toDate) {
+            axios.get(`http://localhost:9000/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+                .then(response => {
+                    console.log("setMilkReceiptsFnConsolidated  ", response.data)
+                    setMilkReceiptsFnConsolidatedFn(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else {
+            setMilkReceiptsFnConsolidatedFn([]);
+        }
+
+    }, [fromDate, toDate]);
+
+
+    const [user, setUser] = useState(null);
+    useEffect(() => {
+        axios.get('http://localhost:9000/', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+            .then(response => {
+                setUser(response.data);
+            })
+            .catch(error => {
+                window.location.href = '/login';
+                console.log(error);
+            });
+    }, []);
+
+
+    const [headquarters, setHeadquarters] = useState([]);
+    const [selectedHeadquarter, setSelectedHeadquarter] = useState(null);
+
+    function handleHeadquarterClick(headquarter) {
+        console.log(headquarter)
+        setSelectedHeadquarter(headquarter);
+    }
+
+
+    useEffect(() => {
+        if (user) {
+            axios.get('http://localhost:9000/headquarters', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+                .then(response => {
+
+                    if (user.user_type === "HQ") {
+                        const selectedHQ = response.data.find(
+                            (headquarter) => headquarter.hq_code === user.user_type_code
+                        );
+                        setSelectedHeadquarter(selectedHQ);
+                        setHeadquarters([selectedHQ, ...response.data.filter((h) => h.hq_code !== user.user_type_code)]);
+                    }
+                    else {
+                        setHeadquarters(response.data);
+                    }
+                })
+                .catch(error => {
+                    window.location.href = '/login';
+                    console.log(error);
+                });
+        }
+    }, [user]);
+
+
+    const [bccs, setBccs] = useState([]);
+    const [selectedBcc, setSelectedBcc] = useState(null);
+
+    function handleBccClick(bcc) {
+        if (isNaN(bcc.bcc_code)) {
+            bcc.bcc_code = bcc.bcc_code[0]
+        }
+        console.log(typeof (bcc.bcc_code), "ssd")
+        setSelectedBcc(bcc);
+    }
+
+
+
+    useEffect(() => {
+        if (selectedHeadquarter && (user?.user_type == "Admin" || user?.user_type == "HQ")) {
+            axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc`)
+                .then(response => {
+                    console.log(response.data)
+                    setBccs(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else if (user?.user_type === 'BCC') {
+            axios.get(`http://localhost:9000/bcc/${user.user_name}`)
+                .then(response => {
+                    console.log(response.data)
+                    setBccs(response.data);
+
+                    const selectedHq = response.data[0];
+                    console.log(selectedHq, "  selectedHq")
+                    setHeadquarters(response.data);
+                    setSelectedHeadquarter(selectedHq);
+                    //   setSelectedHeadquarter(response.data[0].hq_code);
+                    //   setHeadquarters(response.data[0].hq_code);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else {
+            setBccs([]);
+        }
+    }, user?.user_type === 'BCC' ? [user] : [selectedHeadquarter, user]);
+
+    // useEffect(() => {
+    //     if (selectedHeadquarter) {
+    //         axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc`)
+    //             .then(response => {
+    //                 setBccs(response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.log(error);
+    //             });
+    //     } else {
+    //         setBccs([]);
+    //     }
+    // }, [selectedHeadquarter]);
+
+
+    const [societies, setSocieties] = useState([]);
+    const [selectedSociety, setSelectedSociety] = useState(null);
+
+    // function handleSocietyClick(society) {
+    //     setSelectedSociety(society);
+    // }
+
+
+    useEffect(() => {
+        if (selectedBcc) {
+            axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
+                .then(response => {
+                    setSocieties(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else if (user?.user_type === 'Society') {
+            axios.get(`http://localhost:9000/bcc/${user.user_name}/society`)
+                .then(response => {
+                    console.log(response.data);
+
+                    const selectedHq = response.data.find(hq => hq.hq_code === response.data[0].hq_code);
+                    const selectedBcc = response.data.find(bcc => bcc.bcc_code === response.data[0].bcc_code);
+                    setHeadquarters(response.data);
+                    setSelectedHeadquarter(selectedHq);
+                    setSelectedBcc(selectedBcc);
+
+                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc`)
+                        .then(response => {
+                            setBccs(response.data);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+
+                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
+                        .then(response => {
+                            console.log("final society", response.data)
+                            setSelectedSociety(response.data[0]);
+                            setSocieties(response.data);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else {
+            setSocieties([]);
+        }
+    }, [selectedHeadquarter, selectedBcc, user]);
+
+    //////
+    const [societiesFn, setSocietiesFn] = useState([]);
+    const [selectedSocietyFn, setSelectedSocietyFn] = useState(null);
+
+    function handleSocietyClickFn(society) {
+        let result = societies.find(obj => obj.society_code === society.society_code);
+        setSelectedSociety(result);
+        setSelectedSocietyFn(society);
+    }
+
+
+    useEffect(() => {
+        if (selectedBcc && fromDate && toDate) {
+            axios.get(`http://localhost:9000/bcc/${selectedBcc.bcc_code}/societies/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+                .then(response => {
+                    setSocietiesFn(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else if (user?.user_type === 'Society') {
+            axios.get(`http://localhost:9000/bcc/${user.user_name}/society`)
+                .then(response => {
+                    console.log(response.data);
+
+                    const selectedHq = response.data.find(hq => hq.hq_code === response.data[0].hq_code);
+                    const selectedBcc = response.data.find(bcc => bcc.bcc_code === response.data[0].bcc_code);
+                    setHeadquarters(response.data);
+                    setSelectedHeadquarter(selectedHq);
+                    setSelectedBcc(selectedBcc);
+
+                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc`)
+                        .then(response => {
+                            setBccs(response.data);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+
+                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
+                        .then(response => {
+                            console.log("final society", response.data)
+                            setSelectedSocietyFn(response.data[0]);
+                            setSocietiesFn(response.data);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else {
+            setSocietiesFn([]);
+        }
+    }, [selectedHeadquarter, selectedBcc, user]);
+
+
+    const [missedList, setMissedList] = useState([]);
+    useEffect(() => {
+        console.log("societies: ", societies)
+        console.log("societiesFn: ", societiesFn)
+        if (selectedBcc) {
+            let result = societies.filter(obj1 => !societiesFn.some(obj2 => obj1.society_code === obj2.society_code));
+            console.log("missedList: ", result)
+            setMissedList(result)
+        }
+        // else if (user?.user_type === 'Society') {
+
+        // } else {
+        //     setSocieties([]);
+        // }
+    }, [selectedBcc, societies, user, societiesFn]);
+    /////
+    // useEffect(() => {
+    //     if (selectedBcc) {
+    //         axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
+    //             .then(response => {
+    //                 setBccs(response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.log(error);
+    //             });
+    //     } else if (user?.user_type === 'Society') {
+    //         axios.get(`http://localhost:9000/bcc/${user.user_name}/society`)
+    //             .then(response => {
+    //                 console.log(response.data)
+
+    //                 const selectedHq = response.data.find(hq => hq.hq_code === response.data[0].hq_code);
+    //                 const selectedBcc = response.data.find(bcc => bcc.bcc_code === response.data[0].bcc_code);
+    //                 setHeadquarters(response.data);
+    //                 setSelectedHeadquarter(selectedHq);
+    //                 setBccs(response.data);
+    //                 setSelectedBcc(selectedBcc);
+    //                 console.log("->   ", selectedHeadquarter.hq_code, " -> ", selectedBcc.bcc_code[0], " -> ", user.bcc_code)
+    //                 axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
+    //                     .then(response => {
+    //                         console.log("final society", response.data)
+    //                         setSelectedSociety(response.data[0]);
+    //                         setSocieties(response.data);
+    //                     })
+    //                     .catch(error => {
+    //                         console.log(error);
+    //                     });
+
+    //             })
+    //             .catch(error => {
+    //                 console.log(error);
+    //             });
+    //     } else {
+    //         setSocieties([]);
+    //     }
+    // }, [selectedHeadquarter, selectedBcc, user]);
+
+    // useEffect(() => {
+    //     if (selectedBcc) {
+    //         axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
+    //             .then(response => {
+    //                 setSocieties(response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.log(error);
+    //             });
+    //     } else {
+    //         setBccs([]);
+    //     }
+    // }, [selectedHeadquarter, selectedBcc]);
+
+
+    const [selectedSocietyX, setSelectedSocietyX] = useState(null);
+    useEffect(() => {
+        if (selectedSociety) {
+            setSelectedSocietyX(selectedSociety)
+        } else {
+            setSocieties([]);
+        }
+    }, [selectedHeadquarter, selectedBcc, selectedSociety]);
+
+
+
+    const handleReportClick = () => {
+        console.log("bcc- ", selectedBcc)
+        console.log("selectedSocietyX- ", selectedSocietyX)
+        console.log("fromDate- ", fromDate)
+        console.log("toDate- ", toDate)
+
+        history.push({
+            pathname: '/individual-report',
+            state: { selectedBcc, selectedSocietyX, fromDate, toDate }
+        });
+    };
+
+
+
     return (
         <section className='container'>
 
-            {/* <button onClick={() => history.push("/producers")}>PRODUCERS</button> <br />
-            <button onClick={() => history.push("/cattle-information")}>CATTLE_INFORMATION</button> <br />
-            <button onClick={() => history.push("/milk-receipts")}>MILK_RECEIPTS</button> <br />
-            <button onClick={() => history.push("/milk-receipts-fn-consolidated")}>MILK_RECEIPTS_FN_CONSOLIDATED</button> <br />
-            <button onClick={() => history.push("/recoveries-entry-fn")}>RECOVERIES_ENTRY_FN</button> <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <button onClick={() => history.push("/headquarters/")}>HEAD_QUARTERS</button> <br /> */}
+            <div className='dates_container'>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <label for="from_date"><b>From Date: &nbsp;</b></label>
+                    <input type="date" name="from_date" id="from_date" value={fromDate} onChange={handleSetFromDate} className='dates' />
+                </div>
 
-            <button onClick={() => history.push("/headquarters")}>
-                <span>HEAD QUARTERS</span>
-                <svg width="34" height="34" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="37" cy="37" r="35.5" stroke="black" stroke-width="3"></circle>
-                    <path d="M25 35.5C24.1716 35.5 23.5 36.1716 23.5 37C23.5 37.8284 24.1716 38.5 25 38.5V35.5ZM49.0607 38.0607C49.6464 37.4749 49.6464 36.5251 49.0607 35.9393L39.5147 26.3934C38.9289 25.8076 37.9792 25.8076 37.3934 26.3934C36.8076 26.9792 36.8076 27.9289 37.3934 28.5147L45.8787 37L37.3934 45.4853C36.8076 46.0711 36.8076 47.0208 37.3934 47.6066C37.9792 48.1924 38.9289 48.1924 39.5147 47.6066L49.0607 38.0607ZM25 38.5L48 38.5V35.5L25 35.5V38.5Z" fill="black"></path>
-                </svg>
-            </button>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <label for="to_date"><b>To Date: &nbsp;</b></label>
+                    <input type="date" name="to_date" id="to_date" value={fromDate} onChange={handleSetToDate} className='dates' />
+                </div>
+            </div>
+
+            {/* <p>{fromDate}   {toDate}</p>
+            <div>
+                {user ? <h1>{user.user_type}   {user.user_type_code}</h1> : <p>Loading...</p>}
+                {selectedHeadquarter ? selectedHeadquarter.hq_name : ""}
+            </div> */}
+
+            <div className='sections-container'>
+                <div className='headquartes-section'>
+                    <h2>Headquarters</h2>
+                    <div className='lister'>
+
+                        <ul>
+                            {headquarters.map(headquarter => (
+                                <li key={headquarter.hq_code} onClick={() => handleHeadquarterClick(headquarter)}>{headquarter.hq_name}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+                <div className='bcc-section'>
+                    <h2>BCC</h2>
+                    <div className='lister'>
+                        <ul>
+                            {bccs.map(bcc => (
+                                <li key={bcc.bcc_code} onClick={() => handleBccClick(bcc)} >{bcc.bcc_name}</li>
+                            ))}
+                        </ul>
+                    </div>
+                    {/* <div>{selectedBcc ? selectedBcc.bcc_name : ""}</div> */}
+                </div>
+                <div className='society-code-section'>
+                    <h2>Society Available</h2>
+                    <div className='lister'>
+                        <ul>
+                            {societiesFn.map(society => (
+                                <li key={society.society_code} onClick={() => handleSocietyClickFn(society)} ><b>{society.society_code}</b> - {society.society_name}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+                <div className='society-code-section'>
+                    <h2>Society Not</h2>
+                    <div className='lister'>
+                        <ul>
+                            {missedList.map(society => (
+                                <li key={society.society_code}  >{society.society_code}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+                <div className='society-name-section'>
+                    <h2>Selected Society</h2>
+                    <div className='lister'>
+                        <ul>
+                            {selectedSocietyX ? <li>{selectedSocietyX.society_name}</li> : ""}
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div className='buttons-container'>
+                <button onClick={handleReportClick} className='report-button'>Go to Individual Report</button>
+            </div>
 
         </section>
     );

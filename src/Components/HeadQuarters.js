@@ -3,16 +3,21 @@ import axios from 'axios';
 import { useHistory, Link } from "react-router-dom";
 
 export function HeadQuarters() {
+    const [headquarters, setHeadquarters] = useState([]);
     const history = useHistory();
 
-    const [headquarters, setHeadquarters] = useState([]);
 
     useEffect(() => {
-        axios.get('https://visakha-dairy-backend.onrender.com/headquarters')
+        axios.get('http://localhost:9000/headquarters', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
             .then(response => {
                 setHeadquarters(response.data);
             })
             .catch(error => {
+                window.location.href = '/login';
                 console.log(error);
             });
     }, []);
@@ -40,13 +45,13 @@ export function HeadQuarters() {
                     {headquarters.map(headquarter => (
                         <tr key={headquarter.hq_code} onClick={() => history.push(`/headquarters/${headquarter.hq_code}/bcc?headquarters=${headquarter.hq_name}`)}>
                             {/* <Link to={`/bcc/${bcc.bcc_code}/societies`}> */}
-                                <td>{headquarter.hq_code}</td>
-                                <td>{headquarter.hq_name}</td>
-                                <td>{headquarter.phone_no}</td>
-                                <td>{headquarter.focus_unit_code}</td>
-                                <td>{headquarter.email}</td>
-                                <td>{headquarter.incharge_name}</td>
-                                <td>{headquarter.designation}</td>
+                            <td>{headquarter.hq_code}</td>
+                            <td>{headquarter.hq_name}</td>
+                            <td>{headquarter.phone_no}</td>
+                            <td>{headquarter.focus_unit_code}</td>
+                            <td>{headquarter.email}</td>
+                            <td>{headquarter.incharge_name}</td>
+                            <td>{headquarter.designation}</td>
                             {/* </Link> */}
                         </tr>
                     ))}
