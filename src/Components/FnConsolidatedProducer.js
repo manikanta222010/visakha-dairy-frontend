@@ -16,7 +16,7 @@ export function FnConsolidatedProducer() {
 
     const [producer, setProducer] = useState([]);
     useEffect(() => {
-        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}`)
+        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}`)
             .then(response => {
                 setProducer(response.data);
             })
@@ -28,7 +28,7 @@ export function FnConsolidatedProducer() {
     const [cattles, setCattles] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/cattle-information`)
+        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/cattle-information`)
             .then(response => {
                 setCattles(response.data);
             })
@@ -40,7 +40,7 @@ export function FnConsolidatedProducer() {
     const [milkReceiptsFnConsolidated, setMilkReceiptsFnConsolidated] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/milk-receipts-fn-consolidated`)
+        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/milk-receipts-fn-consolidated`)
             .then(response => {
                 setMilkReceiptsFnConsolidated(response.data);
             })
@@ -53,7 +53,7 @@ export function FnConsolidatedProducer() {
     const [recoveries, setRecoveries] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/recoveries-entry-fn`)
+        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/recoveries-entry-fn`)
             .then(response => {
                 setRecoveries(response.data);
             })
@@ -65,7 +65,7 @@ export function FnConsolidatedProducer() {
     const [society, setSociety] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}`)
+        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}`)
             .then(response => {
                 setSociety(response.data);
             })
@@ -96,7 +96,7 @@ export function FnConsolidatedProducer() {
 
     useEffect(() => {
         if (fromDate && toDate) {
-            axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers/${pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
 
                     //////////////////

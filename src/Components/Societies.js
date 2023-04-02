@@ -14,7 +14,7 @@ export function Societies() {
     const [societies, setSocieties] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies`)
+        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies`)
             .then(response => {
                 setSocieties(response.data);
             })

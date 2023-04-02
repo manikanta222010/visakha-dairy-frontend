@@ -18,7 +18,7 @@ export function IndividualReport(props) {
     useEffect(() => {
         console.log("fromDatePassed: ", fromDatePassed)
         console.log("toDatePassed: ", toDatePassed)
-        axios.get(`http://localhost:9000/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${fromDatePassed.slice(0, 10)}/${toDatePassed.slice(0, 10)}`)
+        axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${fromDatePassed.slice(0, 10)}/${toDatePassed.slice(0, 10)}`)
             .then(response => {
                 console.log("producersWithinDates: ", response.data)
                 setProducersWithinDates(response.data);
@@ -32,7 +32,7 @@ export function IndividualReport(props) {
 
     useEffect(() => {
         if (producersWithinDates.length > 0) {
-            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers`)
                 .then(response => {
                     console.log("producersWithinDates: ", producersWithinDates)
                     console.log("response.data: ", response.data)
@@ -72,7 +72,7 @@ export function IndividualReport(props) {
 
     useEffect(() => {
         if (selectedProducer) {
-            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated`)
                 .then(response => {
                     console.log("milkReceiptsFnConsolidated  ", response.data)
                     setMilkReceiptsFnConsolidated(response.data);
@@ -103,7 +103,7 @@ export function IndividualReport(props) {
 
     useEffect(() => {
         if (selectedProducer && fromDate && toDate) {
-            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     console.log("milkReceiptsFnConsolidatedFnwise  ", response.data)
                     setMilkReceiptsFnConsolidatedFnwise(response.data);
@@ -124,7 +124,7 @@ export function IndividualReport(props) {
     useEffect(() => {
         if (selectedProducer && fromDate && toDate) {
             console.log("dates: ", fromDate, toDate)
-            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     setRecoveries(response.data);
                 })
@@ -142,7 +142,7 @@ export function IndividualReport(props) {
     useEffect(() => {
         if (fromDate && toDate && selectedProducer) {
             console.log("dates: ", fromDate, toDate)
-            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     console.log("recoveries: ", response.data)
                     setRecovery(response.data);
@@ -160,7 +160,7 @@ export function IndividualReport(props) {
     useEffect(() => {
         if (fromDate && toDate && selectedProducer) {
             console.log("dates: ", fromDate, toDate)
-            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     const groupedData = response.data.reduce((acc, obj) => {
                         const existingObj = acc.find(
@@ -198,7 +198,7 @@ export function IndividualReport(props) {
 
     useEffect(() => {
         if (selectedProducer) {
-            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/cattle-information`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/cattle-information`)
                 .then(response => {
                     setCattles(response.data);
                 })
@@ -217,7 +217,7 @@ export function IndividualReport(props) {
 
     useEffect(() => {
         if (selectedProducer && fromDate && toDate) {
-            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
 
                     //////////////////
@@ -525,7 +525,7 @@ export function IndividualReport(props) {
 
         useEffect(() => {
             if (selectedProducer) {
-                axios.get(`http://localhost:9000/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/B/AM`)
+                axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/B/AM`)
                     .then(response => {
                         console.log("milk-receiptsBAm: ", response.data);
                         setDayWiseDataBAm(response.data);
@@ -537,7 +537,7 @@ export function IndividualReport(props) {
         }, [from, to, selectedProducer]);
         useEffect(() => {
             if (selectedProducer) {
-                axios.get(`http://localhost:9000/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/B/PM`)
+                axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/B/PM`)
                     .then(response => {
                         console.log("milk-receiptsBPm: ", response.data);
                         setDayWiseDataBPm(response.data);
@@ -814,7 +814,7 @@ export function IndividualReport(props) {
 
         useEffect(() => {
             if (selectedProducer) {
-                axios.get(`http://localhost:9000/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/C/AM`)
+                axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/C/AM`)
                     .then(response => {
                         console.log("milk-receiptsCAm: ", response.data);
                         setDayWiseDataCAm(response.data);
@@ -826,7 +826,7 @@ export function IndividualReport(props) {
         }, [from, to, selectedProducer]);
         useEffect(() => {
             if (selectedProducer) {
-                axios.get(`http://localhost:9000/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/C/PM`)
+                axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/C/PM`)
                     .then(response => {
                         console.log("milk-receiptsCPm: ", response.data);
                         setDayWiseDataCPm(response.data);
