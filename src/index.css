@@ -66,13 +66,13 @@ li:first-child {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #28afb0;
+  background: #008bdb;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #19647e;
+  background: #016faf;
 }
 
 .buttons-container{
@@ -141,7 +141,10 @@ option {
 }
 
 
-
+.report-button-container{
+  display: flex;
+  justify-content: center;
+}
 .report-button-type {
   appearance: none;
   background: transparent;
@@ -182,7 +185,7 @@ option {
 }
 
 .report-button-type > svg {
-  fill: #950cde;
+  fill: #007DC5;
   position: absolute;
   top: -5%;
   left: -5%;

@@ -383,8 +383,8 @@ export function IndividualReport(props) {
         /*! CSS Used from: Embedded */
 ::-webkit-scrollbar{width:7px;}
 ::-webkit-scrollbar-track{background:#f1f1f1;}
-::-webkit-scrollbar-thumb{background:#28afb0;border-radius:10px;}
-::-webkit-scrollbar-thumb:hover{background:#19647e;}
+::-webkit-scrollbar-thumb{background:#008bdb;border-radius:10px;}
+::-webkit-scrollbar-thumb:hover{background:#016faf;}
 .myDivx{border:1px solid black;margin:auto;margin-top:2rem;}
 .border-purpose{border:2px solid black;margin:1rem;}
 .inner-frame{margin:1rem 2rem;}
@@ -398,7 +398,7 @@ export function IndividualReport(props) {
     };
 
     const handleClickerPeriodic = () => {
-        const newWindow = window.open("", "", "width=1100,height=700");
+        const newWindow = window.open("/individual-report", "My window", "width=1100,height=700");
         const divContent = document.getElementById('myDivx').innerHTML;
         newWindow.document.write(divContent);
 
@@ -407,8 +407,8 @@ export function IndividualReport(props) {
         /*! CSS Used from: Embedded */
 ::-webkit-scrollbar{width:7px;}
 ::-webkit-scrollbar-track{background:#f1f1f1;}
-::-webkit-scrollbar-thumb{background:#28afb0;border-radius:10px;}
-::-webkit-scrollbar-thumb:hover{background:#19647e;}
+::-webkit-scrollbar-thumb{background:#008bdb;border-radius:10px;}
+::-webkit-scrollbar-thumb:hover{background:#016faf;}
 #myDivx{border:2px solid black;margin:auto;margin-top:2rem;}
 .border-purpose{border:2px solid black;margin:1rem;}
 .inner-frame{margin:1rem 2rem;}
@@ -1132,12 +1132,12 @@ export function IndividualReport(props) {
 
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <label for="from_date"><b>From Date: &nbsp;</b></label>
-                        <input type="date" name="from_date" id="from_date" value={fromDate} onChange={handleSetFromDate} className='dates' />
+                        <input type="date" name="from_date" id="from_date" value={fromDate ? fromDate.substr(0, 10) : ""} onChange={handleSetFromDate} className='dates' />
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <label for="to_date"><b>To Date: &nbsp;</b></label>
-                        <input type="date" name="to_date" id="to_date" value={fromDate} onChange={handleSetToDate} className='dates' />
+                        <input type="date" name="to_date" id="to_date" value={toDate ? toDate.substr(0, 10) : ""} onChange={handleSetToDate} className='dates' />
                     </div>
                 </div>
 
@@ -1158,12 +1158,14 @@ export function IndividualReport(props) {
 
                 {fromDate && toDate ?
                     <>
-                        <button onClick={() => handleClickerPeriodic()} className='report-button-type'>
-                            <span>Periodic Report</span>
-                            <svg viewBox="-5 -5 110 110" preserveAspectRatio="none" aria-hidden="true">
-                                <path d="M0,0 C0,0 100,0 100,0 C100,0 100,100 100,100 C100,100 0,100 0,100 C0,100 0,0 0,0" />
-                            </svg>
-                        </button>
+                        <div className='report-button-container'>
+                            <button onClick={() => handleClickerPeriodic()} className='report-button-type'>
+                                <span>Periodic Report</span>
+                                <svg viewBox="-5 -5 110 110" preserveAspectRatio="none" aria-hidden="true">
+                                    <path d="M0,0 C0,0 100,0 100,0 C100,0 100,100 100,100 C100,100 0,100 0,100 C0,100 0,0 0,0" />
+                                </svg>
+                            </button>
+                        </div>
 
                         <div style={{ display: 'none' }} id="myDivx">
                             <div className='border-purpose'>
@@ -1567,7 +1569,7 @@ export function IndividualReport(props) {
 
                         {milkMain.map((milkMain, index) => (
 
-                            <div style={{ border: '1px solid green', padding: '2rem', marginBottom: '2rem' }}>
+                            <div style={{ border: '1px solid green', padding: '2rem', margin: '2rem 0' }}>
 
                                 <div>
                                     <>
@@ -1598,62 +1600,70 @@ export function IndividualReport(props) {
                                         </div>
 
                                         <div>
-                                            <table>
-                                                <tr>
-                                                    <th>S No.</th>
-                                                    <th>Pr No</th>
-                                                    <th>Name</th>
-                                                    <th>Recovery Dt</th>
-                                                    <th>Recovery Name</th>
-                                                    <th>Amount</th>
-                                                </tr>
-                                                {recoveries.map(recovery => (
-                                                    recovery.from_date == milkMain.from_date ?
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>{recovery.producer_no}</td>
-                                                            <td>{recovery.recovery_name}</td>
-                                                            <td>{recovery.recovery_date}</td>
-                                                            <td>{recovery.recovery_name}</td>
-                                                            <td>{recovery.amount}</td>
-                                                        </tr>
-                                                        : <></>
-                                                ))}
-                                            </table>
+                                            {recoveries.length > 0 ?
+
+                                                <table>
+                                                    <tr>
+                                                        <th>S No.</th>
+                                                        <th>Pr No</th>
+                                                        <th>Name</th>
+                                                        <th>Recovery Dt</th>
+                                                        <th>Recovery Name</th>
+                                                        <th>Amount</th>
+                                                    </tr>
+                                                    {recoveries.map(recovery => (
+                                                        recovery.from_date == milkMain.from_date ?
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>{recovery.producer_no}</td>
+                                                                <td>{recovery.recovery_name}</td>
+                                                                <td>{recovery.recovery_date}</td>
+                                                                <td>{recovery.recovery_name}</td>
+                                                                <td>{recovery.amount}</td>
+                                                            </tr>
+                                                            : <></>
+                                                    ))}
+                                                </table>
+                                                : ""
+                                            }
                                         </div>
                                     </>
 
 
                                 </div>
 
-                                <button onClick={() => handleClickerDaywise()} className='report-button-type'>
-                                    <span>Report Daywise</span>
-                                    <svg viewBox="-5 -5 110 110" preserveAspectRatio="none" aria-hidden="true">
-                                        <path d="M0,0 C0,0 100,0 100,0 C100,0 100,100 100,100 C100,100 0,100 0,100 C0,100 0,0 0,0" />
-                                    </svg>
-                                </button>
-                                <div id={`myDivDay`}>
-                                    <p>Statement Showing The Individual Producer Vise Milk Collection Of <b>{selectedSocietyX.society_name}</b> Under BCC <b>{selectedBcc.bcc_name}</b></p>
-                                    <hr />
-                                    <p>Pr No: <b>{selectedProducer ? selectedProducer.pno : ""}   &nbsp;&nbsp;&nbsp;&nbsp;{selectedProducer ? (selectedProducer.pname) : ""}</b></p>
-                                    <hr />
-
-
-                                    <div class="main-grid">
-
-                                        {/* <DayWiseB from={milkMain.from_date} to={milkMain.to_date} />
-                                        <DayWiseC from={milkMain.from_date} to={milkMain.to_date} /> */}
-
+                                {/* <div className='report-button-container'>
+                                        <button onClick={() => handleClickerDaywise()} className='report-button-type'>
+                                            <span>Report Daywise</span>
+                                            <svg viewBox="-5 -5 110 110" preserveAspectRatio="none" aria-hidden="true">
+                                                <path d="M0,0 C0,0 100,0 100,0 C100,0 100,100 100,100 C100,100 0,100 0,100 C0,100 0,0 0,0" />
+                                            </svg>
+                                        </button>
                                     </div>
+                                    <div id={`myDivDay`}>
+                                        <p>Statement Showing The Individual Producer Vise Milk Collection Of <b>{selectedSocietyX.society_name}</b> Under BCC <b>{selectedBcc.bcc_name}</b></p>
+                                        <hr />
+                                        <p>Pr No: <b>{selectedProducer ? selectedProducer.pno : ""}   &nbsp;&nbsp;&nbsp;&nbsp;{selectedProducer ? (selectedProducer.pname) : ""}</b></p>
+                                        <hr />
+
+
+                                        <div class="main-grid">
+
+                                            <DayWiseB from={milkMain.from_date} to={milkMain.to_date} />
+                                            <DayWiseC from={milkMain.from_date} to={milkMain.to_date} />
+
+                                        </div>
+                                    </div> */}
+
+
+                                <div className='report-button-container'>
+                                    <button onClick={() => handleClicker(index)} className='report-button-type'>
+                                        <span>Report</span>
+                                        <svg viewBox="-5 -5 110 110" preserveAspectRatio="none" aria-hidden="true">
+                                            <path d="M0,0 C0,0 100,0 100,0 C100,0 100,100 100,100 C100,100 0,100 0,100 C0,100 0,0 0,0" />
+                                        </svg>
+                                    </button>
                                 </div>
-
-
-                                <button onClick={() => handleClicker(index)} className='report-button-type'>
-                                    <span>Report</span>
-                                    <svg viewBox="-5 -5 110 110" preserveAspectRatio="none" aria-hidden="true">
-                                        <path d="M0,0 C0,0 100,0 100,0 C100,0 100,100 100,100 C100,100 0,100 0,100 C0,100 0,0 0,0" />
-                                    </svg>
-                                </button>
 
 
 

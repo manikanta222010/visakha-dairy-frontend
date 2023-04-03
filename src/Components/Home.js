@@ -29,6 +29,7 @@ export function Home() {
     }, [milkReceiptsFnConsolidated]);
 
     function handleSetFromDate(event) {
+        console.log('handleSetFromDate:', event.target.value);
         setFromDate(event.target.value);
         console.log(fromDate)
     }
@@ -75,7 +76,8 @@ export function Home() {
                 setUser(response.data);
             })
             .catch(error => {
-                window.location.href = '/';
+                history.push('/')
+                // window.location.href = '/';
                 console.log(error);
             });
     }, []);
@@ -104,7 +106,7 @@ export function Home() {
                             (headquarter) => headquarter.hq_code === user.user_type_code
                         );
                         setSelectedHeadquarter(selectedHQ);
-                        setHeadquarters([selectedHQ, ...response.data.filter((h) => h.hq_code !== user.user_type_code)]);
+                        // setHeadquarters([selectedHQ, ...response.data.filter((h) => h.hq_code !== user.user_type_code)]);
                     }
                     else {
                         setHeadquarters(response.data);
@@ -149,7 +151,7 @@ export function Home() {
 
                     const selectedHq = response.data[0];
                     console.log(selectedHq, "  selectedHq")
-                    setHeadquarters(response.data);
+                    // setHeadquarters(response.data);
                     setSelectedHeadquarter(selectedHq);
                     //   setSelectedHeadquarter(response.data[0].hq_code);
                     //   setHeadquarters(response.data[0].hq_code);
@@ -201,7 +203,7 @@ export function Home() {
 
                     const selectedHq = response.data.find(hq => hq.hq_code === response.data[0].hq_code);
                     const selectedBcc = response.data.find(bcc => bcc.bcc_code === response.data[0].bcc_code);
-                    setHeadquarters(response.data);
+                    // setHeadquarters(response.data);
                     setSelectedHeadquarter(selectedHq);
                     setSelectedBcc(selectedBcc);
 
@@ -389,15 +391,21 @@ export function Home() {
         <section className='container'>
 
             <div className='dates_container'>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <label for="from_date"><b>From Date: &nbsp;</b></label>
-                    <input type="date" name="from_date" id="from_date" value={fromDate} onChange={handleSetFromDate} className='dates' />
-                </div>
+                {fromDate && (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <label htmlFor="from_date"><b>From Date: &nbsp;</b></label>
+                        <input type="date" name="from_date" id="from_date" value={fromDate ? fromDate.substr(0, 10) : ""} onChange={handleSetFromDate} className='dates' />
+                    </div>
+                )}
+                {toDate ?
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <label for="to_date"><b>To Date: &nbsp;</b></label>
+                        <input type="date" name="to_date" id="to_date" value={toDate ? toDate.substr(0, 10) : ""} onChange={handleSetToDate} className='dates' />
+                    </div>
+                    : ""
+                }
 
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <label for="to_date"><b>To Date: &nbsp;</b></label>
-                    <input type="date" name="to_date" id="to_date" value={fromDate} onChange={handleSetToDate} className='dates' />
-                </div>
+
             </div>
 
             {/* <p>{fromDate}   {toDate}</p>
@@ -412,9 +420,18 @@ export function Home() {
                     <div className='lister'>
 
                         <ul>
-                            {headquarters.map(headquarter => (
-                                <li key={headquarter.hq_code} onClick={() => handleHeadquarterClick(headquarter)}>{headquarter.hq_name}</li>
-                            ))}
+                            {user ?
+                                user.user_type == 'Admin' ?
+                                    headquarters.map(headquarter => (
+                                        <li key={headquarter.hq_code} onClick={() => handleHeadquarterClick(headquarter)}>{headquarter.hq_name}</li>
+                                    ))
+                                    :
+                                    selectedHeadquarter ?
+                                        <li key={selectedHeadquarter.hq_code} >{selectedHeadquarter.hq_name}</li>
+                                        : ""
+
+                                : ""
+                            }
                         </ul>
                     </div>
                 </div>
