@@ -5,11 +5,13 @@ import './css/main.css';
 import './fonts/font-awesome-4.7.0/css/font-awesome.min.css';
 import DairyLogo from './images/DairyLogo.jpg'
 // import './images/img-01.png';
+import { useHistory, Link } from "react-router-dom";
 
 export function Login() {
   const [user_name, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const history = useHistory();
 
   function handleUsernameChange(event) {
     setUsername(event.target.value);
@@ -29,7 +31,8 @@ export function Login() {
       });
       localStorage.setItem('token', response.data.token);
       setErrorMessage('');
-      window.location.href = 'https://visakha-dairy-frontend.onrender.com/home';
+      history.push('/home')
+      // window.location.href = '/home';
     } catch (err) {
       setErrorMessage(err.response.data.message);
     }
