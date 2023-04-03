@@ -29,7 +29,7 @@ export function Login() {
       });
       localStorage.setItem('token', response.data.token);
       setErrorMessage('');
-      window.location.href = '/home';
+      window.location.href = 'https://visakha-dairy-frontend.onrender.com/home';
     } catch (err) {
       setErrorMessage(err.response.data.message);
     }

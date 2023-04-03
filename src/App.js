@@ -20,7 +20,7 @@ function App() {
     <>
 
       <Switch>
-        <Route exact path="/home">
+        <Route exact path="https://visakha-dairy-frontend.onrender.com/home">
           <Home />
         </Route>
         <Route exact path="/">
