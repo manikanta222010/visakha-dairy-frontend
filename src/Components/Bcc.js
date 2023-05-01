@@ -14,7 +14,7 @@ export function Bcc() {
     const [bccs, setBcc] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc`)
+        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc`)
             .then(response => {
                 setBcc(response.data);
             })

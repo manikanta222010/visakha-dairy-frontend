@@ -8,7 +8,7 @@ export function MilkReceipts() {
     const [producers, setProducers] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:9000/milk-receipts')
+        axios.get('https://visakha-dairy-backend.onrender.com/milk-receipts')
             .then(response => {
                 setProducers(response.data);
             })

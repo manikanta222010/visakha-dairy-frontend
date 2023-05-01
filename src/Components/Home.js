@@ -10,7 +10,7 @@ export function Home() {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:9000/milk-receipts-fn-consolidated`)
+        axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts-fn-consolidated`)
             .then(response => {
                 console.log("milkReceiptsFnConsolidated:  ", response.data)
                 setMilkReceiptsFnConsolidated(response.data);
@@ -50,7 +50,7 @@ export function Home() {
 
     useEffect(() => {
         if (fromDate && toDate) {
-            axios.get(`http://localhost:9000/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     console.log("setMilkReceiptsFnConsolidated  ", response.data)
                     setMilkReceiptsFnConsolidatedFn(response.data);
@@ -67,7 +67,7 @@ export function Home() {
 
     const [user, setUser] = useState(null);
     useEffect(() => {
-        axios.get('http://localhost:9000/home', {
+        axios.get('https://visakha-dairy-backend.onrender.com/home', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -94,7 +94,7 @@ export function Home() {
 
     useEffect(() => {
         if (user) {
-            axios.get('http://localhost:9000/headquarters', {
+            axios.get('https://visakha-dairy-backend.onrender.com/headquarters', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -135,7 +135,7 @@ export function Home() {
 
     useEffect(() => {
         if (selectedHeadquarter && (user?.user_type == "Admin" || user?.user_type == "HQ")) {
-            axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc`)
                 .then(response => {
                     console.log(response.data)
                     setBccs(response.data);
@@ -144,7 +144,7 @@ export function Home() {
                     console.log(error);
                 });
         } else if (user?.user_type === 'BCC') {
-            axios.get(`http://localhost:9000/bcc/${user.user_name}`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${user.user_name}`)
                 .then(response => {
                     console.log(response.data)
                     setBccs(response.data);
@@ -166,7 +166,7 @@ export function Home() {
 
     // useEffect(() => {
     //     if (selectedHeadquarter) {
-    //         axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc`)
+    //         axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc`)
     //             .then(response => {
     //                 setBccs(response.data);
     //             })
@@ -189,7 +189,7 @@ export function Home() {
 
     useEffect(() => {
         if (selectedBcc) {
-            axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
                 .then(response => {
                     setSocieties(response.data);
                 })
@@ -197,7 +197,7 @@ export function Home() {
                     console.log(error);
                 });
         } else if (user?.user_type === 'Society') {
-            axios.get(`http://localhost:9000/bcc/${user.user_name}/society`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${user.user_name}/society`)
                 .then(response => {
                     console.log(response.data);
 
@@ -207,7 +207,7 @@ export function Home() {
                     setSelectedHeadquarter(selectedHq);
                     setSelectedBcc(selectedBcc);
 
-                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc`)
+                    axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHq.hq_code}/bcc`)
                         .then(response => {
                             setBccs(response.data);
                         })
@@ -215,7 +215,7 @@ export function Home() {
                             console.log(error);
                         });
 
-                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
+                    axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHq.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
                         .then(response => {
                             console.log("final society", response.data)
                             setSelectedSociety(response.data[0]);
@@ -246,7 +246,7 @@ export function Home() {
 
     useEffect(() => {
         if (selectedBcc && fromDate && toDate) {
-            axios.get(`http://localhost:9000/bcc/${selectedBcc.bcc_code}/societies/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${selectedBcc.bcc_code}/societies/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     setSocietiesFn(response.data);
                 })
@@ -254,7 +254,7 @@ export function Home() {
                     console.log(error);
                 });
         } else if (user?.user_type === 'Society') {
-            axios.get(`http://localhost:9000/bcc/${user.user_name}/society`)
+            axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${user.user_name}/society`)
                 .then(response => {
                     console.log(response.data);
 
@@ -264,7 +264,7 @@ export function Home() {
                     setSelectedHeadquarter(selectedHq);
                     setSelectedBcc(selectedBcc);
 
-                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc`)
+                    axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHq.hq_code}/bcc`)
                         .then(response => {
                             setBccs(response.data);
                         })
@@ -272,7 +272,7 @@ export function Home() {
                             console.log(error);
                         });
 
-                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
+                    axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHq.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
                         .then(response => {
                             console.log("final society", response.data)
                             setSelectedSocietyFn(response.data[0]);
@@ -309,7 +309,7 @@ export function Home() {
     /////
     // useEffect(() => {
     //     if (selectedBcc) {
-    //         axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
+    //         axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
     //             .then(response => {
     //                 setBccs(response.data);
     //             })
@@ -317,7 +317,7 @@ export function Home() {
     //                 console.log(error);
     //             });
     //     } else if (user?.user_type === 'Society') {
-    //         axios.get(`http://localhost:9000/bcc/${user.user_name}/society`)
+    //         axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${user.user_name}/society`)
     //             .then(response => {
     //                 console.log(response.data)
 
@@ -328,7 +328,7 @@ export function Home() {
     //                 setBccs(response.data);
     //                 setSelectedBcc(selectedBcc);
     //                 console.log("->   ", selectedHeadquarter.hq_code, " -> ", selectedBcc.bcc_code[0], " -> ", user.bcc_code)
-    //                 axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
+    //                 axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
     //                     .then(response => {
     //                         console.log("final society", response.data)
     //                         setSelectedSociety(response.data[0]);
@@ -349,7 +349,7 @@ export function Home() {
 
     // useEffect(() => {
     //     if (selectedBcc) {
-    //         axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
+    //         axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
     //             .then(response => {
     //                 setSocieties(response.data);
     //             })

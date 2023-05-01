@@ -16,7 +16,7 @@ export function Producers() {
     const societyName = new URLSearchParams(location.search).get('societyName');
 
     useEffect(() => {
-        axios.get(`http://localhost:9000/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers`)
+        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${hqCode}/bcc/${bccCode}/societies/${societyCode}/producers`)
             .then(response => {
                 console.log(societyName)
                 setProducers(response.data);
