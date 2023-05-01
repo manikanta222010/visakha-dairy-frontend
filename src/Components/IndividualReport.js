@@ -51,12 +51,12 @@ export function IndividualReport(props) {
 
     const [producer, setProducer] = useState(null);
 
-    const [selectedProducer, setSelectedProducer] = useState([]);
+    const [selectedProducer, setSelectedProducer] = useState(null);
     useEffect(() => {
         if (producer) {
             setSelectedProducer(producer)
         } else {
-            setSelectedProducer([]);
+            setSelectedProducer(null);
         }
     }, [producer]);
 
@@ -71,7 +71,8 @@ export function IndividualReport(props) {
     const [milkReceiptsFnConsolidated, setMilkReceiptsFnConsolidated] = useState([]);
 
     useEffect(() => {
-        if (selectedProducer.length > 0) {
+        if (selectedProducer) {
+            console.log("--------------------- ", selectedProducer, typeof (selectedProducer))
             axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated`)
                 .then(response => {
                     console.log("milkReceiptsFnConsolidated  ", response.data)
@@ -102,7 +103,7 @@ export function IndividualReport(props) {
     const [milkReceiptsFnConsolidatedFnwise, setMilkReceiptsFnConsolidatedFnwise] = useState([]);
 
     useEffect(() => {
-        if (selectedProducer.length > 0 && fromDate && toDate) {
+        if (selectedProducer && fromDate && toDate) {
             axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     console.log("milkReceiptsFnConsolidatedFnwise  ", response.data)
@@ -122,9 +123,8 @@ export function IndividualReport(props) {
     const [recoveries, setRecoveries] = useState([]);
 
     useEffect(() => {
-        if (selectedProducer.length > 0 && fromDate && toDate) {
+        if (selectedProducer && fromDate && toDate) {
             console.log("dates: ", fromDate, toDate)
-            console.log("--------------------- ", selectedProducer, typeof (selectedProducer))
             axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     setRecoveries(response.data);
@@ -141,7 +141,7 @@ export function IndividualReport(props) {
     const [recovery, setRecovery] = useState([]);
 
     useEffect(() => {
-        if (fromDate && toDate && selectedProducer.length > 0) {
+        if (fromDate && toDate && selectedProducer) {
             console.log("dates: ", fromDate, toDate)
             axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
@@ -159,7 +159,7 @@ export function IndividualReport(props) {
     const [recoveryFnWise, setRecoveryFnWise] = useState([]);
 
     useEffect(() => {
-        if (fromDate && toDate && selectedProducer.length > 0) {
+        if (fromDate && toDate && selectedProducer) {
             console.log("dates: ", fromDate, toDate)
             axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
@@ -198,7 +198,7 @@ export function IndividualReport(props) {
     const [cattles, setCattles] = useState([]);
 
     useEffect(() => {
-        if (selectedProducer.length > 0) {
+        if (selectedProducer) {
             axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/cattle-information`)
                 .then(response => {
                     setCattles(response.data);
@@ -217,7 +217,7 @@ export function IndividualReport(props) {
     let toDatesArray = []
 
     useEffect(() => {
-        if (selectedProducer.length > 0 && fromDate && toDate) {
+        if (selectedProducer && fromDate && toDate) {
             axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
 
@@ -525,7 +525,7 @@ export function IndividualReport(props) {
         const [dayWiseDataBPm, setDayWiseDataBPm] = useState([]);
 
         useEffect(() => {
-            if (selectedProducer.length > 0) {
+            if (selectedProducer) {
                 axios.get(`http://localhost:9000/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/B/AM`)
                     .then(response => {
                         console.log("milk-receiptsBAm: ", response.data);
@@ -537,7 +537,7 @@ export function IndividualReport(props) {
             }
         }, [from, to, selectedProducer]);
         useEffect(() => {
-            if (selectedProducer.length > 0) {
+            if (selectedProducer) {
                 axios.get(`http://localhost:9000/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/B/PM`)
                     .then(response => {
                         console.log("milk-receiptsBPm: ", response.data);
