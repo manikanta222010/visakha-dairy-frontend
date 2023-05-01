@@ -46,23 +46,23 @@ export function Home() {
         console.log(toDate)
     }
 
-    const [milkReceiptsFnConsolidatedFn, setMilkReceiptsFnConsolidatedFn] = useState([]);
+    // const [milkReceiptsFnConsolidatedFn, setMilkReceiptsFnConsolidatedFn] = useState([]);
 
-    useEffect(() => {
-        if (fromDate && toDate) {
-            axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
-                .then(response => {
-                    console.log("setMilkReceiptsFnConsolidated  ", response.data)
-                    setMilkReceiptsFnConsolidatedFn(response.data);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        } else {
-            setMilkReceiptsFnConsolidatedFn([]);
-        }
+    // useEffect(() => {
+    //     if (fromDate && toDate) {
+    //         axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+    //             .then(response => {
+    //                 console.log("setMilkReceiptsFnConsolidated  ", response.data)
+    //                 setMilkReceiptsFnConsolidatedFn(response.data);
+    //             })
+    //             .catch(error => {
+    //                 console.log(error);
+    //             });
+    //     } else {
+    //         setMilkReceiptsFnConsolidatedFn([]);
+    //     }
 
-    }, [fromDate, toDate]);
+    // }, [fromDate, toDate]);
 
 
     const [user, setUser] = useState(null);
