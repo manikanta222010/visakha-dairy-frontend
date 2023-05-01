@@ -18,7 +18,7 @@ export function IndividualReport(props) {
     useEffect(() => {
         console.log("fromDatePassed: ", fromDatePassed)
         console.log("toDatePassed: ", toDatePassed)
-        axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${fromDatePassed.slice(0, 10)}/${toDatePassed.slice(0, 10)}`)
+        axios.get(`http://localhost:9000/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${fromDatePassed.slice(0, 10)}/${toDatePassed.slice(0, 10)}`)
             .then(response => {
                 console.log("producersWithinDates: ", response.data)
                 setProducersWithinDates(response.data);
@@ -32,7 +32,7 @@ export function IndividualReport(props) {
 
     useEffect(() => {
         if (producersWithinDates.length > 0) {
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers`)
+            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers`)
                 .then(response => {
                     console.log("producersWithinDates: ", producersWithinDates)
                     console.log("response.data: ", response.data)
@@ -51,7 +51,7 @@ export function IndividualReport(props) {
 
     const [producer, setProducer] = useState(null);
 
-    const [selectedProducer, setSelectedProducer] = useState(null);
+    const [selectedProducer, setSelectedProducer] = useState([]);
     useEffect(() => {
         if (producer) {
             setSelectedProducer(producer)
@@ -71,8 +71,8 @@ export function IndividualReport(props) {
     const [milkReceiptsFnConsolidated, setMilkReceiptsFnConsolidated] = useState([]);
 
     useEffect(() => {
-        if (selectedProducer) {
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated`)
+        if (selectedProducer.length > 0) {
+            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated`)
                 .then(response => {
                     console.log("milkReceiptsFnConsolidated  ", response.data)
                     setMilkReceiptsFnConsolidated(response.data);
@@ -102,8 +102,8 @@ export function IndividualReport(props) {
     const [milkReceiptsFnConsolidatedFnwise, setMilkReceiptsFnConsolidatedFnwise] = useState([]);
 
     useEffect(() => {
-        if (selectedProducer && fromDate && toDate) {
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+        if (selectedProducer.length > 0 && fromDate && toDate) {
+            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     console.log("milkReceiptsFnConsolidatedFnwise  ", response.data)
                     setMilkReceiptsFnConsolidatedFnwise(response.data);
@@ -122,9 +122,10 @@ export function IndividualReport(props) {
     const [recoveries, setRecoveries] = useState([]);
 
     useEffect(() => {
-        if (selectedProducer && fromDate && toDate) {
+        if (selectedProducer.length > 0 && fromDate && toDate) {
             console.log("dates: ", fromDate, toDate)
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            console.log("--------------------- ", selectedProducer, typeof (selectedProducer))
+            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     setRecoveries(response.data);
                 })
@@ -140,9 +141,9 @@ export function IndividualReport(props) {
     const [recovery, setRecovery] = useState([]);
 
     useEffect(() => {
-        if (fromDate && toDate && selectedProducer) {
+        if (fromDate && toDate && selectedProducer.length > 0) {
             console.log("dates: ", fromDate, toDate)
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     console.log("recoveries: ", response.data)
                     setRecovery(response.data);
@@ -158,9 +159,9 @@ export function IndividualReport(props) {
     const [recoveryFnWise, setRecoveryFnWise] = useState([]);
 
     useEffect(() => {
-        if (fromDate && toDate && selectedProducer) {
+        if (fromDate && toDate && selectedProducer.length > 0) {
             console.log("dates: ", fromDate, toDate)
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/recoveries-entry-fn/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     const groupedData = response.data.reduce((acc, obj) => {
                         const existingObj = acc.find(
@@ -197,8 +198,8 @@ export function IndividualReport(props) {
     const [cattles, setCattles] = useState([]);
 
     useEffect(() => {
-        if (selectedProducer) {
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/cattle-information`)
+        if (selectedProducer.length > 0) {
+            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/cattle-information`)
                 .then(response => {
                     setCattles(response.data);
                 })
@@ -216,8 +217,8 @@ export function IndividualReport(props) {
     let toDatesArray = []
 
     useEffect(() => {
-        if (selectedProducer && fromDate && toDate) {
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+        if (selectedProducer.length > 0 && fromDate && toDate) {
+            axios.get(`http://localhost:9000/headquarters/${selectedBcc.hq_code}/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
 
                     //////////////////
@@ -524,8 +525,8 @@ export function IndividualReport(props) {
         const [dayWiseDataBPm, setDayWiseDataBPm] = useState([]);
 
         useEffect(() => {
-            if (selectedProducer) {
-                axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/B/AM`)
+            if (selectedProducer.length > 0) {
+                axios.get(`http://localhost:9000/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/B/AM`)
                     .then(response => {
                         console.log("milk-receiptsBAm: ", response.data);
                         setDayWiseDataBAm(response.data);
@@ -536,8 +537,8 @@ export function IndividualReport(props) {
             }
         }, [from, to, selectedProducer]);
         useEffect(() => {
-            if (selectedProducer) {
-                axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/B/PM`)
+            if (selectedProducer.length > 0) {
+                axios.get(`http://localhost:9000/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/B/PM`)
                     .then(response => {
                         console.log("milk-receiptsBPm: ", response.data);
                         setDayWiseDataBPm(response.data);
@@ -647,14 +648,14 @@ export function IndividualReport(props) {
 
 
         return (
-            <div class="day-inner-grid">
-                <div class="inner-item">
+            <div className="day-inner-grid">
+                <div className="inner-item">
                     <div>Date</div>
-                    <div class="">
-                        <div class="sub-inner-item">
+                    <div className="">
+                        <div className="sub-inner-item">
                             <div>-------</div>
-                            <div class="">
-                                <div class="sub-sub-inner-item">
+                            <div className="">
+                                <div className="sub-sub-inner-item">
                                     <div>----</div>
                                     {isReady ?
                                         <div>
@@ -672,32 +673,32 @@ export function IndividualReport(props) {
                         </div>
                     </div>
                 </div>
-                <div class="inner-item">
+                <div className="inner-item">
                     <div>B</div>
-                    <div class="sub-inner-grid2">
-                        <div class="sub-inner-item">
+                    <div className="sub-inner-grid2">
+                        <div className="sub-inner-item">
                             <div>AM</div>
                             {isReady ?
-                                <div class="day-sub-sub-inner-grid">
-                                    <div class="sub-sub-inner-item">
+                                <div className="day-sub-sub-inner-grid">
+                                    <div className="sub-sub-inner-item">
                                         <div>Liters</div>
                                         {dayWiseDataBAm.map(day => (
                                             <div key={day.id}>{day.ltrs}</div>
                                         ))}
                                     </div>
-                                    <div class="sub-sub-inner-item">
+                                    <div className="sub-sub-inner-item">
                                         <div>FAT</div>
                                         {dayWiseDataBAm.map(day => (
                                             <div key={day.id}>{day.fat}</div>
                                         ))}
                                     </div>
-                                    <div class="sub-sub-inner-item">
+                                    <div className="sub-sub-inner-item">
                                         <div>SNF</div>
                                         {dayWiseDataBAm.map(day => (
                                             <div key={day.id}>{day.snf}</div>
                                         ))}
                                     </div>
-                                    <div class="sub-sub-inner-item">
+                                    <div className="sub-sub-inner-item">
                                         <div>Col Type</div>
                                         {dayWiseDataBAm.map(day => (
                                             <div key={day.id}>{day.receipt_type}</div>
@@ -707,28 +708,28 @@ export function IndividualReport(props) {
                                 : ""
                             }
                         </div>
-                        <div class="sub-inner-item">
+                        <div className="sub-inner-item">
                             <div>PM</div>
-                            <div class="day-sub-sub-inner-grid">
-                                <div class="sub-sub-inner-item">
+                            <div className="day-sub-sub-inner-grid">
+                                <div className="sub-sub-inner-item">
                                     <div>Liters</div>
                                     {dayWiseDataBPm.map(day => (
                                         <div key={day.id}>{day.ltrs}</div>
                                     ))}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>FAT</div>
                                     {dayWiseDataBPm.map(day => (
                                         <div key={day.id}>{day.fat}</div>
                                     ))}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>SNF</div>
                                     {dayWiseDataBPm.map(day => (
                                         <div key={day.id}>{day.snf}</div>
                                     ))}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>Col Type</div>
                                     {dayWiseDataBPm.map(day => (
                                         <div key={day.id}>{day.receipt_type}</div>
@@ -738,13 +739,13 @@ export function IndividualReport(props) {
                         </div>
                     </div>
                 </div>
-                <div class="inner-item">
+                <div className="inner-item">
                     <div>Total</div>
-                    <div class="sub-inner-grid1">
-                        <div class="sub-inner-item">
+                    <div className="sub-inner-grid1">
+                        <div className="sub-inner-item">
                             <div>-------</div>
-                            <div class="sub-sub-inner-grid">
-                                <div class="sub-sub-inner-item">
+                            <div className="sub-sub-inner-grid">
+                                <div className="sub-sub-inner-item">
                                     <div>Liters</div>
                                     {dayWiseDataBAm.length > 0 ? (
                                         dayWiseDataBAm.reduce((result, dayAm, index) => {
@@ -763,7 +764,7 @@ export function IndividualReport(props) {
                                         <div>--</div>
                                     )}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>FAT</div>
                                     {dayWiseDataBAm.length > 0 ? (
                                         dayWiseDataBAm.reduce((result, dayAm, index) => {
@@ -780,7 +781,7 @@ export function IndividualReport(props) {
                                         <div>--</div>
                                     )}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>SNF</div>
                                     {dayWiseDataBAm.length > 0 ? (
                                         dayWiseDataBAm.reduce((result, dayAm, index) => {
@@ -814,7 +815,7 @@ export function IndividualReport(props) {
 
         useEffect(() => {
             if (selectedProducer) {
-                axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/C/AM`)
+                axios.get(`http://localhost:9000/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/C/AM`)
                     .then(response => {
                         console.log("milk-receiptsCAm: ", response.data);
                         setDayWiseDataCAm(response.data);
@@ -826,7 +827,7 @@ export function IndividualReport(props) {
         }, [from, to, selectedProducer]);
         useEffect(() => {
             if (selectedProducer) {
-                axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/C/PM`)
+                axios.get(`http://localhost:9000/milk-receipts/bcc/${selectedBcc.bcc_code}/societies/${selectedSocietyX.society_code}/producers/${selectedProducer.pno}/${from.slice(0, 10)}/${to.slice(0, 10)}/C/PM`)
                     .then(response => {
                         console.log("milk-receiptsCPm: ", response.data);
                         setDayWiseDataCPm(response.data);
@@ -940,14 +941,14 @@ export function IndividualReport(props) {
 
 
         return (
-            <div class="day-inner-grid">
-                <div class="inner-item">
+            <div className="day-inner-grid">
+                <div className="inner-item">
                     <div>Date</div>
-                    <div class="">
-                        <div class="sub-inner-item">
+                    <div className="">
+                        <div className="sub-inner-item">
                             <div>-------</div>
-                            <div class="">
-                                <div class="sub-sub-inner-item">
+                            <div className="">
+                                <div className="sub-sub-inner-item">
                                     <div>----</div>
                                     {isReady ?
                                         <div>
@@ -965,32 +966,32 @@ export function IndividualReport(props) {
                         </div>
                     </div>
                 </div>
-                <div class="inner-item">
+                <div className="inner-item">
                     <div>C</div>
-                    <div class="sub-inner-grid2">
-                        <div class="sub-inner-item">
+                    <div className="sub-inner-grid2">
+                        <div className="sub-inner-item">
                             <div>AM</div>
                             {/* {isReady ? */}
-                            <div class="day-sub-sub-inner-grid">
-                                <div class="sub-sub-inner-item">
+                            <div className="day-sub-sub-inner-grid">
+                                <div className="sub-sub-inner-item">
                                     <div>Liters</div>
                                     {dayWiseDataCAm.map(day => (
                                         <div key={day.id}>{day.ltrs}</div>
                                     ))}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>FAT</div>
                                     {dayWiseDataCAm.map(day => (
                                         <div key={day.id}>{day.fat}</div>
                                     ))}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>SNF</div>
                                     {dayWiseDataCAm.map(day => (
                                         <div key={day.id}>{day.snf}</div>
                                     ))}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>Col Type</div>
                                     {dayWiseDataCAm.map(day => (
                                         <div key={day.id}>{day.receipt_type}</div>
@@ -1000,28 +1001,28 @@ export function IndividualReport(props) {
                             : ""
                             {/* } */}
                         </div>
-                        <div class="sub-inner-item">
+                        <div className="sub-inner-item">
                             <div>PM</div>
-                            <div class="day-sub-sub-inner-grid">
-                                <div class="sub-sub-inner-item">
+                            <div className="day-sub-sub-inner-grid">
+                                <div className="sub-sub-inner-item">
                                     <div>Liters</div>
                                     {dayWiseDataCPm.map(day => (
                                         <div key={day.id}>{day.ltrs}</div>
                                     ))}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>FAT</div>
                                     {dayWiseDataCPm.map(day => (
                                         <div key={day.id}>{day.fat}</div>
                                     ))}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>SNF</div>
                                     {dayWiseDataCPm.map(day => (
                                         <div key={day.id}>{day.snf}</div>
                                     ))}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>Col Type</div>
                                     {dayWiseDataCPm.map(day => (
                                         <div key={day.id}>{day.receipt_type}</div>
@@ -1031,13 +1032,13 @@ export function IndividualReport(props) {
                         </div>
                     </div>
                 </div>
-                <div class="inner-item">
+                <div className="inner-item">
                     <div>Total</div>
-                    <div class="sub-inner-grid1">
-                        <div class="sub-inner-item">
+                    <div className="sub-inner-grid1">
+                        <div className="sub-inner-item">
                             <div>-------</div>
-                            <div class="sub-sub-inner-grid">
-                                <div class="sub-sub-inner-item">
+                            <div className="sub-sub-inner-grid">
+                                <div className="sub-sub-inner-item">
                                     <div>Liters</div>
                                     {(dayWiseDataCAm.length > 0 && dayWiseDataCPm.length > 0) ? (
                                         // dayWiseDataCAm.reduce((result, dayAm, index) => {
@@ -1068,7 +1069,7 @@ export function IndividualReport(props) {
                                         <div>--</div>
                                     )}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>FAT</div>
                                     {dayWiseDataCAm.length > 0 ? (
                                         dayWiseDataCAm.reduce((result, dayAm, index) => {
@@ -1085,7 +1086,7 @@ export function IndividualReport(props) {
                                         <div>--</div>
                                     )}
                                 </div>
-                                <div class="sub-sub-inner-item">
+                                <div className="sub-sub-inner-item">
                                     <div>SNF</div>
                                     {dayWiseDataCAm.length > 0 ? (
                                         dayWiseDataCAm.reduce((result, dayAm, index) => {
@@ -1131,12 +1132,12 @@ export function IndividualReport(props) {
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <label for="from_date"><b>From Date: &nbsp;</b></label>
+                        <label htmlFor="from_date"><b>From Date: &nbsp;</b></label>
                         <input type="date" name="from_date" id="from_date" value={fromDate ? fromDate.substr(0, 10) : ""} onChange={handleSetFromDate} className='dates' />
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <label for="to_date"><b>To Date: &nbsp;</b></label>
+                        <label htmlFor="to_date"><b>To Date: &nbsp;</b></label>
                         <input type="date" name="to_date" id="to_date" value={toDate ? toDate.substr(0, 10) : ""} onChange={handleSetToDate} className='dates' />
                     </div>
                 </div>
@@ -1267,15 +1268,15 @@ export function IndividualReport(props) {
                                     <br />
                                 </div>
 
-                                <div class="main-grid">
-                                    <div class="inner-grid">
-                                        <div class="inner-item">
+                                <div className="main-grid">
+                                    <div className="inner-grid">
+                                        <div className="inner-item">
                                             <div>Milk Collection</div>
-                                            <div class="sub-inner-grid2">
-                                                <div class="sub-inner-item">
+                                            <div className="sub-inner-grid2">
+                                                <div className="sub-inner-item">
                                                     <div>-------</div>
-                                                    <div class="">
-                                                        <div class="sub-sub-inner-item">
+                                                    <div className="">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>From Date</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.from_date.slice(0, 10)}</div>
@@ -1284,10 +1285,10 @@ export function IndividualReport(props) {
                                                     </div>
 
                                                 </div>
-                                                <div class="sub-inner-item">
+                                                <div className="sub-inner-item">
                                                     <div>-----------</div>
-                                                    <div class="">
-                                                        <div class="sub-sub-inner-item">
+                                                    <div className="">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>To Date</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.to_date.slice(0, 10)}</div>
@@ -1299,25 +1300,25 @@ export function IndividualReport(props) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="inner-item">
+                                        <div className="inner-item">
                                             <div>B</div>
-                                            <div class="sub-inner-grid">
-                                                <div class="sub-inner-item">
+                                            <div className="sub-inner-grid">
+                                                <div className="sub-inner-item">
                                                     <div>AM</div>
-                                                    <div class="sub-sub-inner-grid">
-                                                        <div class="sub-sub-inner-item">
+                                                    <div className="sub-sub-inner-grid">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>Liters</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.ltrs[0][0] ? milkMain.ltrs[0][0] : "-"}</div>
                                                             ))}
                                                         </div>
-                                                        <div class="sub-sub-inner-item">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>FAT</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.fat[0][0] ? milkMain.fat[0][0] : "-"}</div>
                                                             ))}
                                                         </div>
-                                                        <div class="sub-sub-inner-item">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>SNF</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.snf[0][0] ? milkMain.snf[0][0] : "-"}</div>
@@ -1325,22 +1326,22 @@ export function IndividualReport(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="sub-inner-item">
+                                                <div className="sub-inner-item">
                                                     <div>PM</div>
-                                                    <div class="sub-sub-inner-grid">
-                                                        <div class="sub-sub-inner-item">
+                                                    <div className="sub-sub-inner-grid">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>Liters</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.ltrs[0][1] ? milkMain.ltrs[0][1] : "-"}</div>
                                                             ))}
                                                         </div>
-                                                        <div class="sub-sub-inner-item">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>FAT</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.fat[0][1] ? milkMain.fat[0][1] : "-"}</div>
                                                             ))}
                                                         </div>
-                                                        <div class="sub-sub-inner-item">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>SNF</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.snf[0][1] ? milkMain.snf[0][1] : "-"}</div>
@@ -1348,10 +1349,10 @@ export function IndividualReport(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="sub-inner-item">
+                                                <div className="sub-inner-item">
                                                     <div>Total</div>
-                                                    <div class="">
-                                                        <div class="sub-sub-inner-item">
+                                                    <div className="">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>Ltrs</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{(milkMain.ltrs[0][0] + milkMain.ltrs[0][1]).toFixed(1)}</div>
@@ -1361,25 +1362,25 @@ export function IndividualReport(props) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="inner-item">
+                                        <div className="inner-item">
                                             <div>C</div>
-                                            <div class="sub-inner-grid">
-                                                <div class="sub-inner-item">
+                                            <div className="sub-inner-grid">
+                                                <div className="sub-inner-item">
                                                     <div>AM</div>
-                                                    <div class="sub-sub-inner-grid">
-                                                        <div class="sub-sub-inner-item">
+                                                    <div className="sub-sub-inner-grid">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>Liters</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.ltrs[1] ? (milkMain.ltrs[1][0] ? milkMain.ltrs[1][0] : "-") : "-"}</div>
                                                             ))}
                                                         </div>
-                                                        <div class="sub-sub-inner-item">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>FAT</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.fat[1] ? (milkMain.fat[1][0] ? milkMain.fat[1][0] : "-") : "-"}</div>
                                                             ))}
                                                         </div>
-                                                        <div class="sub-sub-inner-item">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>SNF</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.snf[1] ? (milkMain.snf[1][0] ? milkMain.snf[1][0] : "-") : "-"}</div>
@@ -1387,22 +1388,22 @@ export function IndividualReport(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="sub-inner-item">
+                                                <div className="sub-inner-item">
                                                     <div>PM</div>
-                                                    <div class="sub-sub-inner-grid">
-                                                        <div class="sub-sub-inner-item">
+                                                    <div className="sub-sub-inner-grid">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>Liters</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.ltrs[1] ? (milkMain.ltrs[1][1] ? milkMain.ltrs[1][1] : "-") : "-"}</div>
                                                             ))}
                                                         </div>
-                                                        <div class="sub-sub-inner-item">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>FAT</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.fat[1] ? (milkMain.fat[1][1] ? milkMain.fat[1][1] : "-") : "-"}</div>
                                                             ))}
                                                         </div>
-                                                        <div class="sub-sub-inner-item">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>SNF</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.snf[1] ? (milkMain.snf[1][1] ? milkMain.snf[1][1] : "-") : "-"}</div>
@@ -1410,28 +1411,28 @@ export function IndividualReport(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="sub-inner-item">
+                                                <div className="sub-inner-item">
                                                     <div>Total</div>
-                                                    <div class="">
-                                                        <div class="sub-sub-inner-item">
+                                                    <div className="">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>Ltrs</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.ltrs[1] ? ((milkMain.ltrs[1][0] || milkMain.ltrs[1][1]) ? (milkMain.ltrs[1][0] + milkMain.ltrs[1][1]).toFixed(1) : "-") : "-"}</div>
                                                             ))}
                                                         </div>
-                                                        {/* <div class="sub-sub-inner-item">Sub Sub Inner Item 8</div>
-                                                            <div class="sub-sub-inner-item">Sub Sub Inner Item 9</div> */}
+                                                        {/* <div className="sub-sub-inner-item">Sub Sub Inner Item 8</div>
+                                                            <div className="sub-sub-inner-item">Sub Sub Inner Item 9</div> */}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="inner-item">
+                                        <div className="inner-item">
                                             <div>Total</div>
-                                            <div class="sub-inner-grid1">
-                                                <div class="sub-inner-item">
+                                            <div className="sub-inner-grid1">
+                                                <div className="sub-inner-item">
                                                     <div>-------</div>
-                                                    <div class="">
-                                                        <div class="sub-sub-inner-item">
+                                                    <div className="">
+                                                        <div className="sub-sub-inner-item">
                                                             <div><u>Liters</u></div>
                                                             {milkMain.map((milkMain) => (
                                                                 <div>{milkMain.ltrs[1] || milkMain.ltrs[1] ? ((milkMain.ltrs[0][0] || milkMain.ltrs[1][0] || milkMain.ltrs[1][1]) ? (milkMain.ltrs[1][0] + milkMain.ltrs[1][1] + milkMain.ltrs[0][0] + milkMain.ltrs[0][1]).toFixed(1) : "-") : (milkMain.ltrs[0][0] + milkMain.ltrs[0][1]).toFixed(1)}</div>
@@ -1448,13 +1449,13 @@ export function IndividualReport(props) {
                                 </div>
 
 
-                                <div class="main-grid" >
-                                    <div class="inner-grid5">
-                                        <div class="inner-item">
+                                <div className="main-grid" >
+                                    <div className="inner-grid5">
+                                        <div className="inner-item">
                                             <div>Recoveries</div>
-                                            <div class="sub-inner-grid2">
+                                            <div className="sub-inner-grid2">
                                                 {recoveryFnWise.length > 0 ?
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         {recoveryFnWise.map((recovery) => (
                                                             // recovery.from_date.map((from_date) => (
                                                             //     <div>{from_date.slice(0, 10)}</div>
@@ -1464,13 +1465,13 @@ export function IndividualReport(props) {
                                                         ))}
                                                     </div>
                                                     :
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         <div >&nbsp;</div>
                                                     </div>
                                                 }
 
                                                 {recoveryFnWise.length > 0 ?
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         {recoveryFnWise.map((recovery) => (
                                                             // recovery.to_date.map((to_date) => (
                                                             //     <div>{to_date.slice(0, 10)}</div>
@@ -1480,17 +1481,17 @@ export function IndividualReport(props) {
                                                         ))}
                                                     </div>
                                                     :
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         <div >&nbsp;</div>
                                                     </div>
                                                 }
                                             </div>
                                         </div>
-                                        <div class="inner-item">
+                                        <div className="inner-item">
                                             <div>ADVANCE</div>
-                                            <div class="sub-inner-grid1">
+                                            <div className="sub-inner-grid1">
                                                 {recoveryFnWise.length > 0 ?
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         {recoveryFnWise.map((recovery) => (
                                                             recovery.recovery_name.map((recoveryName, index) => (
                                                                 <div>{recoveryName == 'ADVANCE' ? recovery.amount[index] : null}</div>
@@ -1499,17 +1500,17 @@ export function IndividualReport(props) {
                                                         ))}
                                                     </div>
                                                     :
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         <div >&nbsp;</div>
                                                     </div>
                                                 }
                                             </div>
                                         </div>
-                                        <div class="inner-item">
+                                        <div className="inner-item">
                                             <div>CATTLE FEED</div>
-                                            <div class="sub-inner-grid1">
+                                            <div className="sub-inner-grid1">
                                                 {recoveryFnWise.length > 0 ?
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         {recoveryFnWise.map((recovery) => (
                                                             recovery.recovery_name.map((recoveryName, index) => (
                                                                 <div>{recoveryName == 'CATTLE FEED' ? recovery.amount[index] : null}</div>
@@ -1518,17 +1519,17 @@ export function IndividualReport(props) {
                                                         ))}
                                                     </div>
                                                     :
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         <div >&nbsp;</div>
                                                     </div>
                                                 }
                                             </div>
                                         </div>
-                                        <div class="inner-item">
+                                        <div className="inner-item">
                                             <div>FEED</div>
-                                            <div class="sub-inner-grid1">
+                                            <div className="sub-inner-grid1">
                                                 {recoveryFnWise.length > 0 ?
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         {recoveryFnWise.map((recovery) => (
                                                             recovery.recovery_name.map((recoveryName, index) => (
                                                                 <div>{recoveryName == 'FEED' ? recovery.amount[index] : null}</div>
@@ -1537,23 +1538,23 @@ export function IndividualReport(props) {
                                                         ))}
                                                     </div>
                                                     :
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         <div >&nbsp;</div>
                                                     </div>
                                                 }
                                             </div>
                                         </div>
-                                        <div class="inner-item">
+                                        <div className="inner-item">
                                             <div>Total</div>
-                                            <div class="sub-inner-grid1">
+                                            <div className="sub-inner-grid1">
                                                 {recoveryFnWise.length > 0 ?
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         {recoveryFnWise.map((recovery) => (
                                                             <div>{recovery.amount.reduce((accumulator, currentValue) => accumulator + currentValue)}</div>
                                                         ))}
                                                     </div>
                                                     :
-                                                    <div class="sub-inner-item">
+                                                    <div className="sub-inner-item">
                                                         <div >&nbsp;</div>
                                                     </div>
                                                 }
@@ -1617,7 +1618,7 @@ export function IndividualReport(props) {
                                                                 <td>1</td>
                                                                 <td>{recovery.producer_no}</td>
                                                                 <td>{recovery.recovery_name}</td>
-                                                                <td>{recovery.recovery_date}</td>
+                                                                <td>{recovery.recovery_date.slice(0, 10)}</td>
                                                                 <td>{recovery.recovery_name}</td>
                                                                 <td>{recovery.amount}</td>
                                                             </tr>
@@ -1647,7 +1648,7 @@ export function IndividualReport(props) {
                                         <hr />
 
 
-                                        <div class="main-grid">
+                                        <div className="main-grid">
 
                                             <DayWiseB from={milkMain.from_date} to={milkMain.to_date} />
                                             <DayWiseC from={milkMain.from_date} to={milkMain.to_date} />

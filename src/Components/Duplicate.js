@@ -19,7 +19,7 @@ export function Duplicate(props) {
 
     const [producer, setProducer] = useState([]);
     useEffect(() => {
-        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}/producers/${producerX.pno}`)
+        axios.get(`http://localhost:9000/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}/producers/${producerX.pno}`)
             .then(response => {
                 setProducer(response.data);
             })
@@ -31,7 +31,7 @@ export function Duplicate(props) {
     const [cattles, setCattles] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}/producers/${producerX.pno}/cattle-information`)
+        axios.get(`http://localhost:9000/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}/producers/${producerX.pno}/cattle-information`)
             .then(response => {
                 setCattles(response.data);
             })
@@ -43,7 +43,7 @@ export function Duplicate(props) {
     const [milkReceiptsFnConsolidated, setMilkReceiptsFnConsolidated] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}/producers/${producerX.pno}/milk-receipts-fn-consolidated`)
+        axios.get(`http://localhost:9000/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}/producers/${producerX.pno}/milk-receipts-fn-consolidated`)
             .then(response => {
                 setMilkReceiptsFnConsolidated(response.data);
             })
@@ -56,7 +56,7 @@ export function Duplicate(props) {
     const [recoveries, setRecoveries] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}/producers/${producerX.pno}/recoveries-entry-fn`)
+        axios.get(`http://localhost:9000/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}/producers/${producerX.pno}/recoveries-entry-fn`)
             .then(response => {
                 setRecoveries(response.data);
             })
@@ -68,7 +68,7 @@ export function Duplicate(props) {
     const [society, setSociety] = useState([]);
 
     useEffect(() => {
-        axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}`)
+        axios.get(`http://localhost:9000/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}`)
             .then(response => {
                 setSociety(response.data);
             })
@@ -100,7 +100,7 @@ export function Duplicate(props) {
     useEffect(() => {
         if (fromDate && toDate) {
             console.log(producerX, "-producerX")
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}/producers/${producerX.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`http://localhost:9000/headquarters/${bccX.hq_code}/bcc/${bccX.bcc_code}/societies/${societyX.society_code}/producers/${producerX.pno}/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
 
                     //////////////////

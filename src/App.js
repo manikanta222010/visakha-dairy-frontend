@@ -12,6 +12,7 @@ import { FnConsolidatedProducer } from './Components/FnConsolidatedProducer';
 import { HeadQuarters } from './Components/HeadQuarters';
 import { Login } from './Components/Login';
 import { IndividualReport } from './Components/IndividualReport';
+import { NotFound } from './Components/NotFound';
 
 function App() {
 
@@ -55,6 +56,9 @@ function App() {
         </Route>
         <Route exact path="/headquarters/:hqCode/bcc/:bccCode/societies">
           <Societies />
+        </Route>
+        <Route path="**">
+          <NotFound />
         </Route>
       </Switch>
     </>

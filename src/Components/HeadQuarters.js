@@ -8,7 +8,7 @@ export function HeadQuarters() {
 
 
     useEffect(() => {
-        axios.get('https://visakha-dairy-backend.onrender.com/headquarters', {
+        axios.get('http://localhost:9000/headquarters', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }

@@ -10,7 +10,7 @@ export function Home() {
 
     useEffect(() => {
 
-        axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts-fn-consolidated`)
+        axios.get(`http://localhost:9000/milk-receipts-fn-consolidated`)
             .then(response => {
                 console.log("milkReceiptsFnConsolidated:  ", response.data)
                 setMilkReceiptsFnConsolidated(response.data);
@@ -50,7 +50,7 @@ export function Home() {
 
     useEffect(() => {
         if (fromDate && toDate) {
-            axios.get(`https://visakha-dairy-backend.onrender.com/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`http://localhost:9000/milk-receipts-fn-consolidated/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     console.log("setMilkReceiptsFnConsolidated  ", response.data)
                     setMilkReceiptsFnConsolidatedFn(response.data);
@@ -67,7 +67,7 @@ export function Home() {
 
     const [user, setUser] = useState(null);
     useEffect(() => {
-        axios.get('https://visakha-dairy-backend.onrender.com/home', {
+        axios.get('http://localhost:9000/home', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -94,7 +94,7 @@ export function Home() {
 
     useEffect(() => {
         if (user) {
-            axios.get('https://visakha-dairy-backend.onrender.com/headquarters', {
+            axios.get('http://localhost:9000/headquarters', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -135,7 +135,7 @@ export function Home() {
 
     useEffect(() => {
         if (selectedHeadquarter && (user?.user_type == "Admin" || user?.user_type == "HQ")) {
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc`)
+            axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc`)
                 .then(response => {
                     console.log(response.data)
                     setBccs(response.data);
@@ -144,7 +144,7 @@ export function Home() {
                     console.log(error);
                 });
         } else if (user?.user_type === 'BCC') {
-            axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${user.user_name}`)
+            axios.get(`http://localhost:9000/bcc/${user.user_name}`)
                 .then(response => {
                     console.log(response.data)
                     setBccs(response.data);
@@ -166,7 +166,7 @@ export function Home() {
 
     // useEffect(() => {
     //     if (selectedHeadquarter) {
-    //         axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc`)
+    //         axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc`)
     //             .then(response => {
     //                 setBccs(response.data);
     //             })
@@ -189,7 +189,7 @@ export function Home() {
 
     useEffect(() => {
         if (selectedBcc) {
-            axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
+            axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
                 .then(response => {
                     setSocieties(response.data);
                 })
@@ -197,7 +197,7 @@ export function Home() {
                     console.log(error);
                 });
         } else if (user?.user_type === 'Society') {
-            axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${user.user_name}/society`)
+            axios.get(`http://localhost:9000/bcc/${user.user_name}/society`)
                 .then(response => {
                     console.log(response.data);
 
@@ -207,7 +207,7 @@ export function Home() {
                     setSelectedHeadquarter(selectedHq);
                     setSelectedBcc(selectedBcc);
 
-                    axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHq.hq_code}/bcc`)
+                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc`)
                         .then(response => {
                             setBccs(response.data);
                         })
@@ -215,7 +215,7 @@ export function Home() {
                             console.log(error);
                         });
 
-                    axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHq.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
+                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
                         .then(response => {
                             console.log("final society", response.data)
                             setSelectedSociety(response.data[0]);
@@ -246,7 +246,7 @@ export function Home() {
 
     useEffect(() => {
         if (selectedBcc && fromDate && toDate) {
-            axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${selectedBcc.bcc_code}/societies/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
+            axios.get(`http://localhost:9000/bcc/${selectedBcc.bcc_code}/societies/${fromDate.slice(0, 10)}/${toDate.slice(0, 10)}`)
                 .then(response => {
                     setSocietiesFn(response.data);
                 })
@@ -254,7 +254,7 @@ export function Home() {
                     console.log(error);
                 });
         } else if (user?.user_type === 'Society') {
-            axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${user.user_name}/society`)
+            axios.get(`http://localhost:9000/bcc/${user.user_name}/society`)
                 .then(response => {
                     console.log(response.data);
 
@@ -264,7 +264,7 @@ export function Home() {
                     setSelectedHeadquarter(selectedHq);
                     setSelectedBcc(selectedBcc);
 
-                    axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHq.hq_code}/bcc`)
+                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc`)
                         .then(response => {
                             setBccs(response.data);
                         })
@@ -272,7 +272,7 @@ export function Home() {
                             console.log(error);
                         });
 
-                    axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHq.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
+                    axios.get(`http://localhost:9000/headquarters/${selectedHq.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
                         .then(response => {
                             console.log("final society", response.data)
                             setSelectedSocietyFn(response.data[0]);
@@ -309,7 +309,7 @@ export function Home() {
     /////
     // useEffect(() => {
     //     if (selectedBcc) {
-    //         axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
+    //         axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
     //             .then(response => {
     //                 setBccs(response.data);
     //             })
@@ -317,7 +317,7 @@ export function Home() {
     //                 console.log(error);
     //             });
     //     } else if (user?.user_type === 'Society') {
-    //         axios.get(`https://visakha-dairy-backend.onrender.com/bcc/${user.user_name}/society`)
+    //         axios.get(`http://localhost:9000/bcc/${user.user_name}/society`)
     //             .then(response => {
     //                 console.log(response.data)
 
@@ -328,7 +328,7 @@ export function Home() {
     //                 setBccs(response.data);
     //                 setSelectedBcc(selectedBcc);
     //                 console.log("->   ", selectedHeadquarter.hq_code, " -> ", selectedBcc.bcc_code[0], " -> ", user.bcc_code)
-    //                 axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
+    //                 axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code[0]}/societies/${user.bcc_code}`)
     //                     .then(response => {
     //                         console.log("final society", response.data)
     //                         setSelectedSociety(response.data[0]);
@@ -349,7 +349,7 @@ export function Home() {
 
     // useEffect(() => {
     //     if (selectedBcc) {
-    //         axios.get(`https://visakha-dairy-backend.onrender.com/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
+    //         axios.get(`http://localhost:9000/headquarters/${selectedHeadquarter.hq_code}/bcc/${selectedBcc.bcc_code}/societies`)
     //             .then(response => {
     //                 setSocieties(response.data);
     //             })
@@ -396,15 +396,19 @@ export function Home() {
                         <label htmlFor="from_date"><b>From Date: &nbsp;</b></label>
                         <input type="date" name="from_date" id="from_date" value={fromDate ? fromDate.substr(0, 10) : ""} onChange={handleSetFromDate} className='dates' />
                     </div>
+
                 )}
                 {toDate ?
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <label for="to_date"><b>To Date: &nbsp;</b></label>
+                        <label htmlFor="to_date"><b>To Date: &nbsp;</b></label>
                         <input type="date" name="to_date" id="to_date" value={toDate ? toDate.substr(0, 10) : ""} onChange={handleSetToDate} className='dates' />
                     </div>
                     : ""
                 }
 
+                {/* <div class="date-picker">
+                    <input type="date" />
+                </div> */}
 
             </div>
 
@@ -416,7 +420,7 @@ export function Home() {
 
             <div className='sections-container'>
                 <div className='headquartes-section'>
-                    <h2>Headquarters</h2>
+                    <h3>Headquarters</h3>
                     <div className='lister'>
 
                         <ul>
@@ -436,7 +440,7 @@ export function Home() {
                     </div>
                 </div>
                 <div className='bcc-section'>
-                    <h2>BCC</h2>
+                    <h3>BCC</h3>
                     <div className='lister'>
                         <ul>
                             {bccs.map(bcc => (
@@ -447,7 +451,7 @@ export function Home() {
                     {/* <div>{selectedBcc ? selectedBcc.bcc_name : ""}</div> */}
                 </div>
                 <div className='society-code-section'>
-                    <h2>Society Available</h2>
+                    <h3>Society Available</h3>
                     <div className='lister'>
                         <ul>
                             {societiesFn.map(society => (
@@ -457,7 +461,7 @@ export function Home() {
                     </div>
                 </div>
                 <div className='society-code-section'>
-                    <h2>Society Not</h2>
+                    <h3>Society Not</h3>
                     <div className='lister'>
                         <ul>
                             {missedList.map(society => (
@@ -467,7 +471,7 @@ export function Home() {
                     </div>
                 </div>
                 <div className='society-name-section'>
-                    <h2>Selected Society</h2>
+                    <h3>Selected Society</h3>
                     <div className='lister'>
                         <ul>
                             {selectedSocietyX ? <li>{selectedSocietyX.society_name}</li> : ""}
